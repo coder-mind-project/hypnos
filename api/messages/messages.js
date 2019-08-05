@@ -2,7 +2,7 @@ const nodemailer = require('nodemailer')
 
 module.exports = app => {
 
-    const{ exists, validateEmail, validateLength } = app.config.validation
+    const { exists, validateEmail, validateLength } = app.config.validation
 
     const { SMTP_SERVER, PORT, SECURE, USER, PASSWORD, RECEIVER } = app.config.mailer
     const sendMessage = async (req, res) => {

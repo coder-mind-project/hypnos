@@ -1,6 +1,7 @@
 module.exports = app => {
     app.route('/articles')
         .get(app.api.articles.articles.get)
+        .post(app.api.views.views.setView)
     
     app.route('/articles/:resource')
         .get(app.api.articles.articles.getOne)

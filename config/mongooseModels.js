@@ -57,6 +57,16 @@ module.exports = app => {
 
     const Comment = app.mongoose.model('comments', comment)
 
+    const view = new app.mongoose.Schema({
+        _id: {type: app.mongoose.Schema.ObjectId, auto: true},
+        reader: String,
+        startRead: {type: Date, default: MyDate.setTimeZone('-3')},
+        article: Object,
+        viewsQuantity: {type: Number, default: 1}
+    })
 
-    return { Article, Theme, Comment }
+    const View = app.mongoose.model('views', view)
+
+
+    return { Article, Theme, Comment, View }
 }
