@@ -2,13 +2,21 @@ const rp = require('request-promise')
 
 module.exports = app => {
 
+    //Configuração da api google captcha
     const { uri, secret_key } = app.config.captcha
 
     const { Comment } = app.config.mongooseModels
 
+    const { errorComments } = app.config.managementHttpResponse
+
     const { exists, validateEmail, validateLength } = app.config.validation
 
     const sendComment = async (req, res) => {
+
+        /*
+            Persiste o comentário do usuário a partir de um artigo
+        */
+
         try {
             const cRequest = {...req.body}
 
@@ -35,11 +43,12 @@ module.exports = app => {
                 })
 
         } catch (error) {
-            if(typeof error === 'string') return res.status(400).send(error)
-            return res.status(500).send('Ocorreu um erro desconhecido, por favor tente mais tarde')
+            error = await errorComments(error)
+            return res.status(error.code).send(error.msg)
         }
     }
 
+    /* Obtém os comentários confirmados pelo artigo */
     const getComments = async (_id, page, limit) => {
         try {
             if(!limit) limit = 10
@@ -85,6 +94,7 @@ module.exports = app => {
         }
     }
 
+    /* Responsável por obter os comentários que são respostas de outros comentários */
     const getAnswers = async (req, res) => {
         try {
             let limit = parseInt(req.query.limit) || 10
@@ -96,17 +106,19 @@ module.exports = app => {
 
             if(!_id) throw 'Artigo não informado'
 
-            const comments = await Comment.aggregate([
+            Comment.aggregate([
                 {$match: {
                     'answerOf._id': _id
                 }}
-            ]).skip(page * limit - limit).limit(limit)
+            ]).skip(page * limit - limit)
+            .limit(limit)
+            .then(comments => res.json(comments))
 
-            return res.json(comments)
         } catch (error) {
-            return res.status(500).send(error)
+            error = await errorComments(error)
+            return res.status(error.code).send(error.msg)
         }
     }
 
-    return {sendComment, getComments, getAnswers}
+    return { sendComment, getComments, getAnswers }
 }

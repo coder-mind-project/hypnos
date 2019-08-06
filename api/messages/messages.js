@@ -4,9 +4,21 @@ module.exports = app => {
 
     const { exists, validateEmail, validateLength } = app.config.validation
 
-    const { SMTP_SERVER, PORT, SECURE, USER, PASSWORD, RECEIVER } = app.config.mailer
-    const sendMessage = async (req, res) => {
+    const { errorMessages } = app.config.managementHttpResponse
 
+    const { 
+        SMTP_SERVER, //Servidor SMTP
+        PORT, //Porta
+        SECURE, // Definido através da porta
+        USER, //Conta para envio de e-mail
+        PASSWORD, //Senha da conta para envio de e-mail
+        RECEIVER //E-mail recebedor da mensagem do usuário 
+    } = app.config.mailer
+
+    const sendMessage = async (req, res) => {
+        /*
+            Responsável por enviar a mensagem de contato de um usuário
+        */
         const user = {...req.body}
         
         try {
@@ -40,23 +52,8 @@ module.exports = app => {
             if(info.messageId) return res.status(200).send('E-mail enviado com sucesso')
             else throw 'Ocorreu um erro ao enviar o e-mail'
         } catch (error) {
-            let code = 500
-
-            if(typeof error === 'string'){
-                switch(error){
-                    case 'Você precisa digitar uma mensagem/pergunta primeiro':
-                    case 'E-mail inválido, verifique se seu e-mail está correto':{
-                        code = 400
-                    }
-                    default: {
-                        if(error.includes('Máximo permitido')){
-                            code = 400
-                        }
-                    }
-                }
-            }
-
-            return res.status(code).send(error)
+            error = await errorMessages(error)  
+            return res.status(error.code).send(error.msg)
         }
     }
 

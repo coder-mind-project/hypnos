@@ -1,7 +1,8 @@
 const MyDate = require('./Date')
 
 module.exports = app => {
-    // Schema para os artigos do sistema
+
+    // Schema para os artigos
     const article = new app.mongoose.Schema({
         _id: {type: app.mongoose.Schema.ObjectId, auto: true},
         author: Object,
@@ -31,6 +32,8 @@ module.exports = app => {
     
     const Article = app.mongoose.model('articles', article)
 
+
+
     //Schema para os temas dos artigos
     const theme = new app.mongoose.Schema({
         _id: {type: app.mongoose.Schema.ObjectId, auto: true},
@@ -42,7 +45,9 @@ module.exports = app => {
     
     const Theme = app.mongoose.model('themes', theme)
     
-    
+
+
+    // Schema para os comentários dos artigos
     const comment = new app.mongoose.Schema({
         _id: {type: app.mongoose.Schema.ObjectId, auto: true},
         article: Object,
@@ -57,6 +62,9 @@ module.exports = app => {
 
     const Comment = app.mongoose.model('comments', comment)
 
+
+    
+    // Schema para as visualizações dos artigos
     const view = new app.mongoose.Schema({
         _id: {type: app.mongoose.Schema.ObjectId, auto: true},
         reader: String,

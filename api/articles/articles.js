@@ -5,6 +5,10 @@ module.exports = app => {
     const { getComments } = app.api.comments.comments
 
     const get = async (req, res) => {
+        /*  
+            Obtém os artigos para listagem | Com uso de filtros por palavra chave,
+            tema, autor, entre outros
+        */
 
         try {
             
@@ -103,10 +107,11 @@ module.exports = app => {
                 },{$sort: {createdAt: -1}}])
                 .skip(page * limit - limit).limit(limit).then(articles => res.json({articles, count, limit, boostedArticles}))
         } catch (error) {
-            return res.status(500).send(error)
+            return res.status(500).send('Ocorreu um erro interno ao obter as informações, tente novamente mais tarde')
         }
     }
 
+    /* Obtem os artigos impulsionados */
     const getBoostedArticles = async () => {
         
         try {
@@ -139,6 +144,7 @@ module.exports = app => {
         }
     }
 
+    /* Obtém o artigo pela uri customizada */
     const getOne = async (req, res) => {
         try {
             const customURL = req.params.resource
@@ -155,13 +161,17 @@ module.exports = app => {
         }
     }
 
+    /* Obtém os artigos relacionados de um determinado artigo */
     const getRelateds = async (req, res) => {
         try {
             const target = req.params.resource
+            
+            /* Recebe o limite de artigos relacionados */
             let limit = parseInt(req.query.limit) || 3
 
             if(limit > 10) limit = 3
 
+            /* Caso o recurso não esteja definido, recebe apenas os artigos impulsionados */
             if(!target){
                 let articles = await getBoostedArticles()
                 
@@ -191,7 +201,7 @@ module.exports = app => {
             }
 
         } catch (error) {
-            return res.status(500).send(error)
+            return res.status(500).send('Ocorreu um erro interno ao obter as informações, tente novamente mais tarde')
         }
     }
 

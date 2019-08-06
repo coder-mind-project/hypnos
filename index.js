@@ -4,10 +4,6 @@ const app = express()
 const consign = require('consign')
 const mongoose = require('mongoose')
 
-const cors = require('cors')
-
-app.use(cors())
-
 app.mongoose = mongoose
 app.express = express
 
@@ -18,6 +14,7 @@ consign()
     .then('/config/captcha.js')
     .then('/config/validation.js')
     .then('/config/mailer.js')
+    .then('/config/managementHttpResponse.js')
     .then('/config/Date.js')
     .then('/config/mongooseModels.js')
     .then('/api/comments')

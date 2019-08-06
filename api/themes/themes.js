@@ -51,7 +51,7 @@ module.exports = app => {
                     }
                 ]).skip(page * limit - limit).limit(limit).then(themes => res.json({themes, count, limit}))
             } catch (error) {
-                return res.status(500).send('Ops, ocorreu um erro ao recuperar as informações. Tente atualizar a página')
+                return res.status(500).send('Ocorreu um erro interno ao obter as informações, tente novamente mais tarde')
             }
     }
 

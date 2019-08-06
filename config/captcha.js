@@ -1,8 +1,13 @@
-module.exports = app => {
-    const site_key = '6LePkK8UAAAAACKAocqyAEB2YQr4cnd3j8Ya2b2U'
-    const secret_key = '6LePkK8UAAAAAG7I4S3wGbN9uX285JZlEaDQhXe5'
-    const uri = 'https://www.google.com/recaptcha/api/siteverify'
+const { 
+    captcha_site_key,
+    captcha_secret_key, 
+    captcha_url 
+} = require('../.env')
 
-    
+module.exports = app => {
+    const site_key = captcha_site_key
+    const secret_key = captcha_secret_key
+    const uri = captcha_url
+
     return {site_key, secret_key, uri}
 }

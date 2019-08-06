@@ -1,4 +1,5 @@
 module.exports = app => {
+
     app.route('/articles')
         .get(app.api.articles.articles.get)
         .post(app.api.views.views.setView)
@@ -17,7 +18,6 @@ module.exports = app => {
 
     app.route('/themes')
         .get(app.api.themes.themes.get)
-
 
     app.route('/contact')
         .post(app.api.messages.messages.sendMessage)
