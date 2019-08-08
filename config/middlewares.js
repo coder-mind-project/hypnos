@@ -7,7 +7,7 @@ const cors = require('cors')
     Adicione somente mais origins em casos de novas
     aplicações que irão consumir a mesma
 */
-const whiteList = ['http://localhost:3000']
+const whiteList = ['http://localhost:3000', 'http://localhost:3001', 'http://localhost:3002', 'http://localhost:3003']
 
 /*      
     Configurações de acesso aos middlewares via cors

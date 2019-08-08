@@ -54,20 +54,36 @@ module.exports = app => {
             if(!limit) limit = 10
             if(!page) page = 1
 
-            if(limit > 100) limit = 10
+            if(limit > 10) limit = 10
 
             if(!_id) throw 'Artigo não informado'
 
+            /* Obtém a quantidade de comentários que não sejam respostas */
+            let count = await Comment.aggregate([
+                {$match:
+                    {$and: [
+                        {'article._id': {$regex: `${_id}`, $options: 'i'}},
+                        {confirmed: true},
+                        {answerOf: null}
+                    ]}
+                }
+            ]).count('id')
+
+            count = count.length > 0 ? await count.reduce(item => item).id : 0
+
+            /* Obtém os comentários do artigo */
             let comments = await Comment.aggregate([
                 {$match:
                     {$and: [
                         {'article._id': {$regex: `${_id}`, $options: 'i'}},
                         {confirmed: true}
                     ]}
-                }
+                },
+                {$sort: {createdAt: -1}}
             ]).skip(page * limit - limit).limit(limit)
 
             const noAnswers = comments.filter((comment) => Boolean(!comment.answerOf))
+
 
             comments.map(comment => {
 
@@ -87,10 +103,9 @@ module.exports = app => {
             })
 
             comments = noAnswers
-
-            return {comments, status: true}
+            return {comments, count, status: true}
         } catch (error) {
-            return {error, status: false}
+            return {error, count: 0, status: false}
         }
     }
 
@@ -120,5 +135,25 @@ module.exports = app => {
         }
     }
 
-    return { sendComment, getComments, getAnswers }
+
+    const get = async (req, res) => {
+        try {
+            const limit = parseInt(req.query.limit) || 10
+            const page = parseInt(req.query.page) || 1
+            const articleId = req.query.article || ''
+
+
+            if(!articleId) throw 'Artigo não informado'
+
+            const comments = await getComments(articleId, page, limit)
+
+            return res.json(comments)
+
+        } catch (error) {
+            error = await errorComments(error)
+            return res.status(error.code).send(error.msg)
+        }
+    }
+
+    return { sendComment, getComments, getAnswers, get }
 }

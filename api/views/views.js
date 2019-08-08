@@ -8,13 +8,15 @@ module.exports = app => {
         Define a visualização do usuário ao acessar um artigo
     */
 
-    const setView = async (req, res) => {
+    const setView = async (article) => {
         try {
-            /* Artigo visualizado */
-            const article = {...req.body}
 
             /* Obtenção de ip do usuário */
-            const ip = await publicIp.v4()
+            let ip = 'anonimous'
+
+            await publicIp.v4().then( userIp => {
+                if(userIp) ip = userIp 
+            })
 
             /*  
                 Verificação de existencia da visualização, ou seja, caso o usuário esteja
@@ -28,17 +30,17 @@ module.exports = app => {
                     reader: ip,
                     article
                 })
-                await view.save().then( () => res.status(204).send())
+                return await view.save()
 
             }else{
                 let quantity = ++exists.viewsQuantity
                 const _id = exists._id
 
-                await View.updateOne({_id},{viewsQuantity: quantity}).then(() => res.status(204).send())
+                return await View.updateOne({_id},{viewsQuantity: quantity})
             }
 
         } catch (error) {
-            return res.status(500).send('Ocorreu um erro interno ao obter as informações, tente novamente mais tarde')
+            return 'Ocorreu um erro interno ao obter as informações, tente novamente mais tarde'
         }
 
     }

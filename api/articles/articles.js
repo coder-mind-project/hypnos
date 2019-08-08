@@ -4,6 +4,10 @@ module.exports = app => {
 
     const { getComments } = app.api.comments.comments
 
+    const { setView } = app.api.views.views
+
+    const { getLike } = app.api.likes.likes
+
     const get = async (req, res) => {
         /*  
             Obtém os artigos para listagem | Com uso de filtros por palavra chave,
@@ -152,10 +156,14 @@ module.exports = app => {
             const article = await Article.findOne({customURL, inactivated: false})
             
             if(!article) return res.status(404).send('Artigo não encontrado')
+            
+            await setView(article)
+            const userLike = await getLike(article)
             const result = await getComments(article._id)
             const comments = result.comments || []
+            const countComments = result.count
 
-            return res.json({article, comments})
+            return res.json({article, comments, countComments, userLike})
         } catch (error) {
             return res.status(500).send('Ocorreu um erro ao obter o artigo, por favor tente mais tarde')
         }

@@ -2,7 +2,7 @@ module.exports = app => {
 
     app.route('/articles')
         .get(app.api.articles.articles.get)
-        .post(app.api.views.views.setView)
+        .post(app.api.likes.likes.setLike)
     
     app.route('/articles/:resource')
         .get(app.api.articles.articles.getOne)
@@ -12,6 +12,7 @@ module.exports = app => {
 
     app.route('/comments/article')
         .post(app.api.comments.comments.sendComment)
+        .get(app.api.comments.comments.get)
 
     app.route('/comments/answers/:id')
         .get(app.api.comments.comments.getAnswers)

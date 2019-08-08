@@ -21,9 +21,9 @@ module.exports = app => {
         sharesCounter: Number,
         likesCounter: Number,
         dislikesCounter: Number,
-        createdAt: {type: Date, default: MyDate.setTimeZone('-3')},
-        updatedAt: {type: Date, default: MyDate.setTimeZone('-3')},
-        publishAt: {type: Date, default: MyDate.setTimeZone('-3')},
+        createdAt: {type: Date, default: new Date()},
+        updatedAt: {type: Date, default: new Date()},
+        publishAt: {type: Date, default: new Date()},
         published: Boolean,
         boosted: Boolean,
         deleted: Boolean,
@@ -57,7 +57,7 @@ module.exports = app => {
         confirmed: {type: Boolean, default: false},
         readed: {type: Boolean, default: false},
         answerOf: {type: Object, default: null},
-        createdAt: {type: Date, default: MyDate.setTimeZone('-3')}
+        createdAt: {type: Date, default: new Date()}
     })
 
     const Comment = app.mongoose.model('comments', comment)
@@ -68,7 +68,7 @@ module.exports = app => {
     const view = new app.mongoose.Schema({
         _id: {type: app.mongoose.Schema.ObjectId, auto: true},
         reader: String,
-        startRead: {type: Date, default: MyDate.setTimeZone('-3')},
+        startRead: {type: Date, default: new Date()},
         article: Object,
         viewsQuantity: {type: Number, default: 1}
     })
@@ -76,5 +76,16 @@ module.exports = app => {
     const View = app.mongoose.model('views', view)
 
 
-    return { Article, Theme, Comment, View }
+
+    const like = new app.mongoose.Schema({
+        _id: {type: app.mongoose.Schema.ObjectId, auto: true},
+        reader: String,
+        createdAt: {type: Date, default: new Date()},
+        article: Object,
+        confirmed: Boolean
+    })
+
+    const Like = app.mongoose.model('likes', like)
+
+    return { Article, Theme, Comment, View, Like }
 }

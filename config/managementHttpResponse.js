@@ -56,5 +56,22 @@ module.exports = app => {
         return customError
     }
 
-    return { errorMessages, errorComments }
+    const errorLikes = (error) => {
+        const customError = {
+            code: 500,
+            msg: 'Ocorreu um erro interno, se persistir resporte'
+        }
+
+        if(error.trim() === '') return customError
+
+        switch(error){
+            case 'Não conseguimos te identificar, por acaso esta usando uma VPN?':{
+                customError.code = 401
+            }
+        }
+
+        customError.msg = error
+    }
+
+    return { errorMessages, errorComments, errorLikes }
 }
