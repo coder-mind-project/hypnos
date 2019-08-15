@@ -7,12 +7,12 @@ const {developement, production} = require('../.env')
     Altere para 'development' para setar para ambiente de desenvolvimento
     Altere para 'production' para setar para produção
 */
-const config = developement
+const config = developement.local
 
-const url = config.local.url
-const user = config.local.user
-const pass = config.local.pass
-const dbName = config.local.dbName
+const url = config.url
+const user = config.user
+const pass = config.pass
+const dbName = config.dbName
 
 /* Realiza a conexão com o banco do mongoDB */
 mongoose.connect(url, {

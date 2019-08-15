@@ -1,15 +1,14 @@
 {
   "name": "coder-mind-api",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "api for server coder mind's aplications",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": ["Coder Mind", "CM-API", "CM-Management-API", "Coder Mind API", "Coder Mind management API"],
+  "author": "Allan Wanderley Alves",
+  "license": "self-funding",
   "dependencies": {
     "body-parser": "^1.19.0",
     "consign": "^0.1.6",
