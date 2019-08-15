@@ -7,7 +7,7 @@ const cors = require('cors')
     Adicione somente mais origins em casos de novas
     aplicações que irão consumir a mesma
 */
-const whiteList = ['http://localhost:3000', 'http://localhost:3001', 'http://localhost:3002', 'http://localhost:3003']
+const whiteList = []
 
 /*      
     Configurações de acesso aos middlewares via cors
@@ -30,5 +30,5 @@ const options = {
 
 module.exports = app => {
     app.use(bodyParser.json({limit: '10mb'}))
-    app.use(cors(options))
+    app.use(cors())
 }
