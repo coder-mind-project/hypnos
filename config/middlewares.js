@@ -7,7 +7,7 @@ const cors = require('cors')
     Adicione somente mais origins em casos de novas
     aplicações que irão consumir a mesma
 */
-const whiteList = []
+const whiteList = ['https://codermind.com.br']
 
 /*      
     Configurações de acesso aos middlewares via cors

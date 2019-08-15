@@ -1,5 +1,8 @@
 module.exports = app => {
 
+    /* Resource for public access */
+    app.use('/public', app.express.static('public'))
+
     app.route('/articles')
         .get(app.api.articles.articles.get)
         .post(app.api.likes.likes.setLike)
