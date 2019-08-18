@@ -11,11 +11,12 @@ module.exports = app => {
 
             const article = {...req.body}
 
-            let ip = null
 
-            await publicIp.v4().then( userIp => {
+            let ip = req.connection.remoteAddress || null
+
+            /*await publicIp.v4().then( userIp => {
                 if(userIp) ip = userIp
-            })
+            })*/
             
             if(!ip) throw 'Não conseguimos te identificar, por acaso esta usando uma VPN?'
 
