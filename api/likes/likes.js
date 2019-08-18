@@ -11,19 +11,13 @@ module.exports = app => {
 
             const article = {...req.body}
 
-            let ip = req.connection.remoteAddress || null
 
-            /*await publicIp.v4().then( userIp => {
-                if(userIp) ip = userIp
-            })*/
-            
-            if(!ip) throw 'Não conseguimos te identificar, por acaso esta usando uma VPN?'
-
-            const exists = await Like.findOne({'article._id': article._id, reader: ip})
+            const reader = article.reader || Date.now() + '&' + Math.floor(Math.random()*25)
+            const exists = await Like.findOne({'article._id': article._id, reader})
 
             if(!exists){
                 const like = new Like({
-                    reader: ip,
+                    reader,
                     article,
                     confirmed: true
                 })
@@ -38,6 +32,7 @@ module.exports = app => {
                 })
             }
         } catch (error) {
+            console.log(error)
             error = await errorLikes(error)
             return res.status(error.code).send(error.msg)
         }
