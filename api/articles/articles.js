@@ -6,7 +6,7 @@ module.exports = app => {
 
     const { setView } = app.api.views.views
 
-    const { getLike } = app.api.likes.likes
+    //const { getLike } = app.api.likes.likes
 
     const get = async (req, res) => {
         /*  
@@ -152,18 +152,19 @@ module.exports = app => {
     const getOne = async (req, res) => {
         try {
             const customURL = req.params.resource
+            const uip = req.query.uip
             
             const article = await Article.findOne({customURL, inactivated: false})
             
             if(!article) return res.status(404).send('Artigo não encontrado')
             
-            await setView(article)
-            const userLike = await getLike(article)
+            await setView(article, uip)
+            //const userLike = await getLike(article)
             const result = await getComments(article._id)
             const comments = result.comments || []
             const countComments = result.count
 
-            return res.json({article, comments, countComments, userLike})
+            return res.json({article, comments, countComments})
         } catch (error) {
             return res.status(500).send('Ocorreu um erro ao obter o artigo, por favor tente mais tarde')
         }

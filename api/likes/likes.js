@@ -32,25 +32,14 @@ module.exports = app => {
                 })
             }
         } catch (error) {
-            console.log(error)
             error = await errorLikes(error)
             return res.status(error.code).send(error.msg)
         }
     }
 
-    const getLike = async (article) => {
-        
-        try {
+    const getLike = async (article, ip) => {
 
-            
-            let ip = null
-            
-            await publicIp.v4().then( userIp => {
-                if(userIp) ip = userIp
-            })
-            
-            if(!ip) return false
-            
+        try {
             const like = await Like.findOne({'article._id' : {$regex: `${article._id}`}, reader: ip})
             
             return like

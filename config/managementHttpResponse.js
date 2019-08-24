@@ -62,7 +62,7 @@ module.exports = app => {
             msg: 'Ocorreu um erro interno, se persistir resporte'
         }
 
-        if(error.trim() === '') return customError
+        if(typeof error === 'string' && error.trim() === '') return customError
 
         switch(error){
             case 'Não conseguimos te identificar, por acaso esta usando uma VPN?':{
