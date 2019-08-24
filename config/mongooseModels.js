@@ -21,9 +21,9 @@ module.exports = app => {
         sharesCounter: Number,
         likesCounter: Number,
         dislikesCounter: Number,
-        createdAt: {type: Date, default: new Date()},
-        updatedAt: {type: Date, default: new Date()},
-        publishAt: {type: Date, default: new Date()},
+        createdAt: Date,
+        updatedAt: Date,
+        publishAt: Date,
         published: Boolean,
         boosted: Boolean,
         deleted: Boolean,
@@ -57,7 +57,10 @@ module.exports = app => {
         confirmed: {type: Boolean, default: false},
         readed: {type: Boolean, default: false},
         answerOf: {type: Object, default: null},
-        createdAt: {type: Date, default: new Date()}
+    },{
+        timestamps: {
+            createdAt: 'created_at'
+        }
     })
 
     const Comment = app.mongoose.model('comments', comment)
@@ -68,7 +71,7 @@ module.exports = app => {
     const view = new app.mongoose.Schema({
         _id: {type: app.mongoose.Schema.ObjectId, auto: true},
         reader: String,
-        startRead: {type: Date, default: new Date()},
+        startRead: Date,
         article: Object,
         viewsQuantity: {type: Number, default: 1}
     })
@@ -80,9 +83,12 @@ module.exports = app => {
     const like = new app.mongoose.Schema({
         _id: {type: app.mongoose.Schema.ObjectId, auto: true},
         reader: String,
-        createdAt: {type: Date, default: new Date()},
         article: Object,
         confirmed: Boolean
+    },{
+        timestamps: {
+            createdAt: 'created_at'
+        }
     })
 
     const Like = app.mongoose.model('likes', like)
