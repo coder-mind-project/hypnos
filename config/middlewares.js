@@ -7,6 +7,7 @@ const cors = require('cors')
     Adicione somente mais origins em casos de novas
     aplicações que irão consumir a mesma
 */
+
 const whiteList = ['https://codermind.com.br']
 
 /*      
@@ -30,5 +31,5 @@ const options = {
 
 module.exports = app => {
     app.use(bodyParser.json({limit: '10mb'}))
-    app.use(cors())
+    app.use(cors(options))
 }
