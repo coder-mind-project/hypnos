@@ -110,7 +110,7 @@ module.exports = app => {
                     boosted ? onlyBoosted : publish,
                     config
                 ]}
-            },{$sort: {created_at: -1}}])
+            },{$sort: {publishAt: -1}}])
                 .skip(page * limit - limit).limit(limit).then(articles => res.json({articles, count, limit, boostedArticles}))
             } catch (error) {
                 return res.status(500).send('Ocorreu um erro interno ao obter as informações, tente novamente mais tarde')
@@ -145,7 +145,7 @@ module.exports = app => {
                     {deleted: false},
                     config
                 ]}
-                },{$sort: {created_at: -1}}]).limit(limit)
+                },{$sort: {publishAt: -1}}]).limit(limit)
 
             return {articles, count}
         
