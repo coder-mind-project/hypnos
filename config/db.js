@@ -7,7 +7,7 @@ const {developement, production} = require('../.env')
     Altere para 'development' para setar para ambiente de desenvolvimento
     Altere para 'production' para setar para produção
 */
-const config = production
+const config = developement
 
 const url = config.url
 const user = config.user

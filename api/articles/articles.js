@@ -6,7 +6,7 @@ module.exports = app => {
 
     const { setView } = app.api.views.views
 
-    const { getLike } = app.api.likes.likes
+    //const { getLike } = app.api.likes.likes
 
     const get = async (req, res) => {
         /*  
@@ -84,6 +84,7 @@ module.exports = app => {
                         categories,
                     ]},
                     {inactivated: false},
+                    {deleted: false},
                     authors,
                     boosted ? onlyBoosted : publish,
                     config
@@ -91,7 +92,7 @@ module.exports = app => {
             }]).count("id")
             
             count = count.length > 0 ? count.reduce(item => item).id : 0
-
+            
             Article.aggregate([
                 {$match : {$and: [
                     {$or: [
@@ -104,16 +105,17 @@ module.exports = app => {
                         categories,
                     ]},
                     {inactivated: false},
+                    {deleted: false},
                     authors,
                     boosted ? onlyBoosted : publish,
                     config
                 ]}
-                },{$sort: {createdAt: -1}}])
+            },{$sort: {created_at: -1}}])
                 .skip(page * limit - limit).limit(limit).then(articles => res.json({articles, count, limit, boostedArticles}))
-        } catch (error) {
-            return res.status(500).send('Ocorreu um erro interno ao obter as informações, tente novamente mais tarde')
+            } catch (error) {
+                return res.status(500).send('Ocorreu um erro interno ao obter as informações, tente novamente mais tarde')
+            }
         }
-    }
 
     /* Obtem os artigos impulsionados */
     const getBoostedArticles = async () => {
@@ -127,19 +129,23 @@ module.exports = app => {
 
             let count = await Article.aggregate([
                 {$match : {$and: [
+                    {published: true},
                     {boosted: true},
+                    {deleted: false},
                     config
                 ]}
             }]).count("id")
             
             count = count.length > 0 ? await count.reduce(item => item).id : 0
-
+            
             const articles = await Article.aggregate([
                 {$match : {$and: [
+                    {published: true},
                     {boosted: true},
+                    {deleted: false},
                     config
                 ]}
-                },{$sort: {createdAt: -1}}]).limit(limit)
+                },{$sort: {created_at: -1}}]).limit(limit)
 
             return {articles, count}
         
@@ -152,18 +158,19 @@ module.exports = app => {
     const getOne = async (req, res) => {
         try {
             const customURL = req.params.resource
+            const uip = req.query.uip
             
-            const article = await Article.findOne({customURL, inactivated: false})
+            const article = await Article.findOne({customURL, inactivated: false, deleted: false})
             
             if(!article) return res.status(404).send('Artigo não encontrado')
             
-            await setView(article)
-            const userLike = await getLike(article)
+            await setView(article, uip)
+            //const userLike = await getLike(article)
             const result = await getComments(article._id)
             const comments = result.comments || []
             const countComments = result.count
 
-            return res.json({article, comments, countComments, userLike})
+            return res.json({article, comments, countComments})
         } catch (error) {
             return res.status(500).send('Ocorreu um erro ao obter o artigo, por favor tente mais tarde')
         }
@@ -184,18 +191,17 @@ module.exports = app => {
                 let articles = await getBoostedArticles()
                 
                 articles = articles.articles.filter((elem, index) => index <= (limit-1))
-
                 return res.json(articles)
             }else{
                 const article = await Article.findOne({customURL: target})
-
+                
                 if(!article) {
                     let articles = await getBoostedArticles()
                     articles = articles.articles.filter((elem, index) => index <= (limit-1))
-
+                    
                     return res.json(articles)
                 }
-
+                
                 await Article.aggregate([
                     {$match: {
                         $or: [
@@ -203,11 +209,14 @@ module.exports = app => {
                             {'category._id': article.category._id}
                         ],
                         _id: {'$ne': article._id},
-                        published: true
+                        published: true,
+                        inactivated: false,
+                        deleted: false,
                     }
                 }]).limit(limit).then(response => res.json(response))
+                
             }
-
+            
         } catch (error) {
             return res.status(500).send('Ocorreu um erro interno ao obter as informações, tente novamente mais tarde')
         }

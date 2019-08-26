@@ -8,42 +8,41 @@ module.exports = app => {
         Define a visualização do usuário ao acessar um artigo
     */
 
-    const setView = async (article) => {
+    const setView = async (article, uip) => {
         try {
-
-            /* Obtenção de ip do usuário */
-            let ip = 'anonimous'
-
-            await publicIp.v4().then( userIp => {
-                if(userIp) ip = userIp 
-            })
-
-            /*  
-                Verificação de existencia da visualização, ou seja, caso o usuário esteja
-                revendo o artigo
-            */
-            const exists = await View.findOne({reader: ip, 'article._id': article._id})
-
-            if(!exists){
-
-                const view = new View({
-                    reader: ip,
-                    article
-                })
-                return await view.save()
-
+            if(uip){
+                const exists = await View.findOne({reader: uip, 'article._id': article._id})
+                /*  
+                    Verificação de existencia da visualização, ou seja, caso o usuário esteja
+                    revendo o artigo
+                */
+                if(!exists){
+                    const view = new View({
+                        reader: uip,
+                        article,
+                        startRead: new Date()
+                    })
+                    return await view.save()
+                }else{
+                    let quantity = ++exists.viewsQuantity
+                    const _id = exists._id
+                    
+                    return await View.updateOne({_id},{viewsQuantity: quantity})
+                }
             }else{
-                let quantity = ++exists.viewsQuantity
-                const _id = exists._id
+                /* Caso não exista o endereço de IP do leitor */
+                const view = new View({
+                    startRead: new Date(),
+                    reader: `${Date.now() + (Math.round(Math.random()*5*5*30))}`
+                })
 
-                return await View.updateOne({_id},{viewsQuantity: quantity})
+                return await view.save()
             }
-
         } catch (error) {
             return 'Ocorreu um erro interno ao obter as informações, tente novamente mais tarde'
         }
-
+        
     }
-
+    
     return { setView }
 }

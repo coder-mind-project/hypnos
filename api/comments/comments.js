@@ -79,7 +79,7 @@ module.exports = app => {
                         {confirmed: true}
                     ]}
                 },
-                {$sort: {createdAt: -1}}
+                {$sort: {created_at: -1}}
             ]).skip(page * limit - limit).limit(limit)
 
             const noAnswers = comments.filter((comment) => Boolean(!comment.answerOf))
