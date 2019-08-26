@@ -7,6 +7,7 @@ const cors = require('cors')
     Adicione somente mais origins em casos de novas
     aplicações que irão consumir a mesma
 */
+
 const whiteList = ['https://codermind.com.br']
 
 /*      
@@ -19,7 +20,7 @@ const whiteList = ['https://codermind.com.br']
 
 const options = {
     origin: (origin, callback) => {
-        if(whiteList.indexOf(origin) !== -1){
+        if(whiteList.indexOf() !== -1){
             callback(null, true)
         }else{
             callback(new Error('Not allowed by CORS'))
