@@ -20,7 +20,7 @@ const whiteList = ['https://codermind.com.br']
 
 const options = {
     origin: (origin, callback) => {
-        if(whiteList.indexOf(origin) !== -1){
+        if(whiteList.indexOf() !== -1){
             callback(null, true)
         }else{
             callback(new Error('Not allowed by CORS'))
@@ -31,5 +31,5 @@ const options = {
 
 module.exports = app => {
     app.use(bodyParser.json({limit: '10mb'}))
-    app.use(cors(options))
+    app.use(cors())
 }
