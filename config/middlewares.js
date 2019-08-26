@@ -31,5 +31,5 @@ const options = {
 
 module.exports = app => {
     app.use(bodyParser.json({limit: '10mb'}))
-    app.use(cors(options))
+    app.use(cors())
 }
