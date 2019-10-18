@@ -33,6 +33,7 @@ module.exports = app => {
                 /* Caso não exista o endereço de IP do leitor */
                 const view = new View({
                     startRead: new Date(),
+                    article,
                     reader: `${Date.now() + (Math.round(Math.random()*5*5*30))}`
                 })
 

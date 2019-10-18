@@ -1,6 +1,6 @@
 {
   "name": "coder-mind-api",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "api for server coder mind's aplications",
   "main": "index.js",
   "scripts": {
