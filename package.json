@@ -1,26 +1,27 @@
 {
-  "name": "coder-mind-api",
+  "name": "hypnos-api",
   "version": "1.0.6",
-  "description": "api for server coder mind's aplications",
+  "description": "Articles and metrics API",
   "main": "index.js",
   "scripts": {
     "start": "nodemon"
   },
-  "keywords": ["Coder Mind", "CM-API", "CM-Management-API", "Coder Mind API", "Coder Mind management API"],
-  "author": "Allan Wanderley Alves",
-  "license": "self-funding",
+  "author": "Coder Mind",
+  "contributors": [
+    "Allan Wanderley Alves"
+  ],
   "dependencies": {
     "body-parser": "^1.19.0",
     "consign": "^0.1.6",
     "cors": "^2.8.5",
     "express": "^4.17.1",
-    "mongoose": "^5.6.5",
-    "nodemailer": "^6.3.0",
-    "public-ip": "^3.1.0",
-    "request": "^2.88.0",
-    "request-promise": "^4.2.4"
+    "mongoose": "^5.9.26",
+    "nodemailer": "^6.4.10",
+    "public-ip": "^4.0.2",
+    "request": "^2.88.2",
+    "request-promise": "^4.2.6"
   },
   "devDependencies": {
-    "nodemon": "^1.19.1"
+    "nodemon": "^2.0.4"
   }
 }

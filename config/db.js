@@ -18,6 +18,7 @@ const dbName = config.dbName
 mongoose.connect(url, {
     useNewUrlParser: true,
     useCreateIndex: true,
+    useUnifiedTopology: true,
     dbName,
     user,
     pass
