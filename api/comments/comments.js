@@ -6,7 +6,7 @@ const { captcha } = require('../../config/environments')
 module.exports = app => {
   const { url, secretKey } = captcha
 
-  const { errorComments } = app.config.managementHttpResponse
+  const { errorComments } = app.api.managementHttpResponse
 
   const { exists, validateEmail, validateLength } = app.config.validation
 

@@ -1,6 +1,6 @@
 const Like = require('../../config/database/schemas/Like')
 module.exports = app => {
-  const { errorLikes } = app.config.managementHttpResponse
+  const { errorLikes } = app.api.managementHttpResponse
 
   const setLike = async (req, res) => {
     try {

@@ -4,7 +4,7 @@ const { smtp } = require('../../config/environments')
 module.exports = app => {
   const { exists, validateEmail, validateLength } = app.config.validation
 
-  const { errorMessages } = app.config.managementHttpResponse
+  const { errorMessages } = app.api.managementHttpResponse
 
   const sendMessage = async (req, res) => {
     /*
