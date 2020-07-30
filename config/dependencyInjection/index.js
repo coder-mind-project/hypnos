@@ -1,17 +1,9 @@
 const consign = require('consign')
 
 class ServiceLocator {
-  constructor(express) {
-    this._express = express
-  }
-
-  configure() {
+  static configure(express) {
     consign()
-      .include('/config/middlewares.js')
-      .then('/config/captcha.js')
-      .then('/config/validation.js')
-      .then('/config/mailer.js')
-      .then('/config/Date.js')
+      .include('/config/validation.js')
       .then('/api/managementHttpResponse.js')
       .then('/api/comments')
       .then('/api/views')
@@ -20,7 +12,7 @@ class ServiceLocator {
       .then('/api/messages')
       .then('/api/themes')
       .then('/api')
-      .into(this._express)
+      .into(express)
   }
 }
 

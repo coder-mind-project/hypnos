@@ -1,8 +1,10 @@
 const DI = require('../dependencyInjection')
+const Database = require('../database')
 
 class Services {
   static configure(express) {
-    new DI(express).configure()
+    Database.connect()
+    DI.configure(express)
   }
 
   static configurePublicResources(express, path = '/public') {
