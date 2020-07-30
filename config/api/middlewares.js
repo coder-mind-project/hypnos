@@ -1,6 +1,9 @@
-
 const bodyParser = require('body-parser')
 
-module.exports = app => {
-  app.use(bodyParser.json({ limit: '10mb' }))
+class Middlewares {
+  static configure(express, reqBodySize = 1) {
+    express.use(bodyParser.json({ limit: `${reqBodySize}mb` }))
+  }
 }
+
+module.exports = Middlewares

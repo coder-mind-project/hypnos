@@ -1,8 +1,14 @@
 const DI = require('../dependencyInjection')
 const Database = require('../database')
+const Middlewares = require('../api/middlewares')
+
+const Cors = require('../api/cors')
 
 class Services {
   static configure(express) {
+    Cors.configure(express)
+
+    Middlewares.configure(express)
     Database.connect()
     DI.configure(express)
   }

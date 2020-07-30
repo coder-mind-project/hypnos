@@ -1,15 +1,21 @@
 const cors = require('cors')
 
-const whiteList = ['https://codermind.com.br']
+class Cors {
+  constructor() {
+    this.whiteList = process.env.ORIGINS
+  }
 
-const config = {
-  origin: (origin, callback) => {
-    if (whiteList.indexOf() !== -1) {
+  allowOrigins(origin, callback) {
+    if (this.whiteList.indexOf(origin) !== -1) {
       callback(null, true)
     } else {
       callback(new Error('Not allowed by CORS'))
     }
   }
+
+  configure(express) {
+    express.use(cors({ origin: this.allowOrigins }))
+  }
 }
 
-module.exports = cors(config)
+module.exports = new Cors()
