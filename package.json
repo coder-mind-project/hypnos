@@ -4,7 +4,8 @@
   "description": "Articles and metrics API",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon"
+    "start": "node index.js",
+    "start:develop": "nodemon"
   },
   "author": "Coder Mind",
   "contributors": [
@@ -14,8 +15,10 @@
     "body-parser": "^1.19.0",
     "consign": "^0.1.6",
     "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "mongoose": "^5.9.26",
+    "mongoose-unique-validator": "^2.0.3",
     "nodemailer": "^6.4.10",
     "public-ip": "^4.0.2",
     "request": "^2.88.2",
