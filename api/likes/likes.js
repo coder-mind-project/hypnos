@@ -1,52 +1,45 @@
-const publicIp = require('public-ip')
-
+const Like = require('../../config/database/schemas/Like')
 module.exports = app => {
+  const { errorLikes } = app.config.managementHttpResponse
 
-    const { Like } = app.config.mongooseModels
+  const setLike = async (req, res) => {
+    try {
+      const article = { ...req.body }
 
-    const { errorLikes } = app.config.managementHttpResponse
-    
-    const setLike = async (req, res) => {
-        try {
+      const reader = article.reader || Date.now() + '&' + Math.floor(Math.random() * 25)
+      const exists = await Like.findOne({ 'article._id': article._id, reader })
 
-            const article = {...req.body}
+      if (!exists) {
+        const like = new Like({
+          reader,
+          article,
+          confirmed: true
+        })
 
-            const reader = article.reader || Date.now() + '&' + Math.floor(Math.random()*25)
-            const exists = await Like.findOne({'article._id': article._id, reader})
-
-            if(!exists){
-                const like = new Like({
-                    reader,
-                    article,
-                    confirmed: true
-                })
-
-                like.save().then( response => res.status(201).send(response))
-            }else{
-                Like.updateOne({'article._id': article._id, reader: ip}, {
-                    confirmed: !exists.confirmed
-                }).then( () => {
-                    exists.confirmed = !exists.confirmed
-                    return res.status(200).send(exists)
-                })
-            }
-        } catch (error) {
-            error = await errorLikes(error)
-            return res.status(error.code).send(error.msg)
-        }
+        like.save().then(response => res.status(201).send(response))
+      } else {
+        Like.updateOne({ 'article._id': article._id, reader: ip }, {
+          confirmed: !exists.confirmed
+        }).then(() => {
+          exists.confirmed = !exists.confirmed
+          return res.status(200).send(exists)
+        })
+      }
+    } catch (error) {
+      error = await errorLikes(error)
+      return res.status(error.code).send(error.msg)
     }
+  }
 
-    const getLike = async (article, ip) => {
+  const getLike = async (article, ip) => {
+    try {
+      const like = await Like.findOne({ 'article._id': { $regex: `${article._id}` }, reader: ip })
 
-        try {
-            const like = await Like.findOne({'article._id' : {$regex: `${article._id}`}, reader: ip})
-            
-            return like
-        } catch (error) {
-            return false
-        }
-
+      return like
+    } catch (error) {
+      return false
     }
+  }
 
-    return { setLike, getLike }
+  return { setLike, getLike }
 }
