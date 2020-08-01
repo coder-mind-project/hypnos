@@ -1,4 +1,4 @@
-const Theme = require('../../config/database/schemas/Theme')
+const Theme = require('../../02_domain/models/Theme')
 
 module.exports = app => {
   const get = async (req, res) => {

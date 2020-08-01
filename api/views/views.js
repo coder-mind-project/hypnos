@@ -1,4 +1,4 @@
-const View = require('../../config/database/schemas/View')
+const View = require('../../02_domain/models/View')
 
 module.exports = app => {
   const setView = async (article, uip) => {

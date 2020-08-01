@@ -1,4 +1,4 @@
-const Like = require('../../config/database/schemas/Like')
+const Like = require('../../02_domain/models/Like')
 module.exports = app => {
   const { errorLikes } = app.api.managementHttpResponse
 
