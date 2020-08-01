@@ -4,7 +4,7 @@ class BaseRepository {
   }
 
   get(skip = 0, take = 10, query = null) {
-    return this._model.find(query).skip(skip).limit(take)
+    return this._model.find().skip(skip).limit(take)
   }
 
   getOne(id) {

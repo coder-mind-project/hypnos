@@ -1,4 +1,4 @@
-const UnitOfWork = require('../../03_infra/database/unitOfWork')
+const ServiceLocator = require('../../03_infra/dependencyInjection/serviceLocator')
 
 class ArticleService {
   /* async get(page = 1, limit = 10, query = '', theme = '', category = '', author = '') {
@@ -107,27 +107,13 @@ class ArticleService {
       .skip(page * limit - limit).limit(limit).then(articles => res.json({ articles, count, limit, boostedArticles }))
   } */
 
-  async getBoostedArticles() {
-    return UnitOfWork.articleRepository.getBoosted()
+  async getBoostedArticles(skip = 0, take = 5) {
+    return ServiceLocator.unitOfWork.articleRepository.getBoosted(skip, take)
   }
 
-  /* async getOne(customURL, uip) {
-    try {
-      const article = await Article.findOne({ customURL, inactivated: false, deleted: false })
-
-      if (!article) return res.status(404).send('Artigo não encontrado')
-
-      await setView(article, uip)
-      // const userLike = await getLike(article)
-      const result = await getComments(article._id)
-      const comments = result.comments || []
-      const countComments = result.count
-
-      return res.json({ article, comments, countComments })
-    } catch (error) {
-      return res.status(500).send('Ocorreu um erro ao obter o artigo, por favor tente mais tarde')
-    }
-  } */
+  async getByCustomUri(customUri) {
+    return ServiceLocator.unitOfWork.articleRepository.getByCustomUri(customUri, ['boosted', 'published'])
+  }
 
   /* async getRelateds(customURL, limit = 3) {
     try {

@@ -1,4 +1,4 @@
-const ArticleRepository = require('./repositories/articleRepository')
+const ArticleRepository = require('./database/repositories/articleRepository')
 
 class UnitOfWork {
   constructor() {
