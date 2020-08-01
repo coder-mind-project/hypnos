@@ -8,16 +8,35 @@ class ArticleAction {
     this._app.route(`${resource}/boosted`)
       .get(this.getBoosted)
 
+    this._app.route(`${resource}/:customUri/relateds`)
+      .get(this.getRelateds)
+
     this._app.route(`${resource}/:customUri`)
       .get(this.getOne)
   }
 
-  async getOne(req, res) {
-    return res.json(await articleService.getByCustomUri(req.params.customUri))
+  async getBoosted(req, res, next) {
+    try {
+      res.json(await articleService.getBoostedArticles(req.query.skip, req.query.take))
+    } catch (err) {
+      next(err)
+    }
   }
 
-  async getBoosted(req, res) {
-    return res.json(await articleService.getBoostedArticles(req.query.skip, req.query.take))
+  async getRelateds(req, res, next) {
+    try {
+      res.json(await articleService.getRelateds(req.params.customUri))
+    } catch (err) {
+      next(err)
+    }
+  }
+
+  async getOne(req, res, next) {
+    try {
+      res.json(await articleService.getByCustomUri(req.params.customUri))
+    } catch (err) {
+      next(err)
+    }
   }
 }
 

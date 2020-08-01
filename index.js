@@ -4,5 +4,5 @@ const services = require('./03_infra/services')
 
 services.configurePublicResources(express)
 services.configure(app)
-services.configureActions(express)
+services.configureActions(app)
 services.start(app)
