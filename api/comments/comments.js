@@ -1,14 +1,14 @@
 const rp = require('request-promise')
 
-const Comment = require('../../config/database/schemas/Comment')
-const { captcha } = require('../../config/environments')
+const Comment = require('../../02_domain/models/Comment')
+const { captcha } = require('../../03_infra/environments')
 
 module.exports = app => {
   const { url, secretKey } = captcha
 
   const { errorComments } = app.api.managementHttpResponse
 
-  const { exists, validateEmail, validateLength } = app.config.validation
+  const { exists, validateEmail, validateLength } = app['03_infra'].validation
 
   const sendComment = async (req, res) => {
     /*

@@ -1,8 +1,8 @@
 const nodemailer = require('nodemailer')
-const { smtp } = require('../../config/environments')
+const { smtp } = require('../../03_infra/environments')
 
 module.exports = app => {
-  const { exists, validateEmail, validateLength } = app.config.validation
+  const { exists, validateEmail, validateLength } = app['03_infra'].validation
 
   const { errorMessages } = app.api.managementHttpResponse
 
