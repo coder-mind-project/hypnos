@@ -9,8 +9,6 @@ class ServiceLocator {
       .then('/api/views')
       .then('/api/likes')
       .then('/api/messages')
-      .then('/api/themes')
-      .then('/api/themes')
       .into(express)
   }
 }
