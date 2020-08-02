@@ -6,6 +6,7 @@
 [![All Contributors](https://img.shields.io/badge/all_contributors-1-blue.svg?style=flat-square)](#contributors)
 ![Development status](http://img.shields.io/badge/status-under%20development-yellow)
 ![contributions-welcome](https://img.shields.io/badge/contributions-welcome-brightgreen)
+![license-BS3](https://img.shields.io/badge/license-BSD%203-green)
 [![JavaScript Style Guide](https://cdn.rawgit.com/standard/standard/master/badge.svg)](https://github.com/standard/standard)
 
 ## Contact information:
