@@ -2,11 +2,11 @@
 
 class Log {
   static print(message, reason = 'Hypnos Log') {
-    console.log(`${reason}: ${message}`)
+    console.log(`${new Date()} - ${reason}: ${message}`)
   }
 
   static colorPrint(message, backgroundColor, fontColor = '\x1b[37m', reason = 'Hypnos Log') {
-    console.log(`${backgroundColor}%s${fontColor}`, `${reason}: ${message}`, '\x1b[0m')
+    console.log(`${new Date()} - ${backgroundColor}%s${fontColor}`, `${reason}: ${message}`, '\x1b[0m')
   }
 }
 

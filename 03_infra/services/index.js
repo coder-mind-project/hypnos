@@ -1,6 +1,8 @@
 const DI = require('../dependencyInjection')
 const Database = require('../database')
 const Middlewares = require('../api/middlewares')
+const Actions = require('../../01_presentation/actions/actions')
+const HttpStatusCodeHandler = require('../../01_presentation/handlers/httpstatuscode')
 
 const Cors = require('../api/cors')
 
@@ -11,10 +13,15 @@ class Services {
     Middlewares.configure(express)
     Database.connect()
     DI.configure(express)
+    Actions.configure(express)
   }
 
   static configurePublicResources(express, path = '/public') {
     express().use(path, express.static('public'))
+  }
+
+  static configureActions(express) {
+    HttpStatusCodeHandler.Configure(express)
   }
 
   static start(express, port = 3010, host = '0.0.0.0') {
