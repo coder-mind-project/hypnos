@@ -3,7 +3,8 @@
   "version": "1.0.6",
   "description": "Articles and metrics API",
   "scripts": {
-    "start": "node ./build/index.js",
+    "start": "tsc && node ./build/index.js",
+    "dev": "ts-node-dev --respawn index.ts",
     "start:develop": "nodemon ./build/index.js",
     "tsc": "tsc"
   },
