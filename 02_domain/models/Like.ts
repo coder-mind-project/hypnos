@@ -1,14 +1,15 @@
-import mongoose from 'mongoose'
+import { Schema, Types, Model, model } from 'mongoose'
+import ILike from '../interfaces/models/ILike'
 
 /**
  * @description The Like (Article like) Schema
- * @type {mongoose.Schema}
+ * @type {Schema}
  */
-const like = new mongoose.Schema(
+const likeSchema = new Schema(
   {
-    _id: { type: mongoose.Types.ObjectId, auto: true },
+    _id: { type: Types.ObjectId, auto: true },
     reader: { type: String, required: true },
-    articleId: { type: mongoose.Types.ObjectId, required: true },
+    articleId: { type: Types.ObjectId, required: true },
     active: { type: Boolean, required: true, default: true }
   },
   {
@@ -19,4 +20,6 @@ const like = new mongoose.Schema(
   }
 )
 
-export default mongoose.model('likes', like)
+const Like: Model<ILike> = model('likes', likeSchema)
+
+export default Like

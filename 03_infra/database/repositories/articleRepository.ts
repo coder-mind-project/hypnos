@@ -3,15 +3,11 @@ import BaseRepository from '../../../02_domain/models/Article'
 
 import ResourceNotFound from '../../../01_presentation/exceptions/ResourceNotFound'
 
-class ArticleRepository extends BaseRepository {
-  constructor() {
-    super(Article)
-  }
-
-  getByCustomUri(customUri: String, stateCriteria: Array<String> = []) {
+class ArticleRepository {
+  getByCustomUri(customUri: string, stateCriteria: Array<string> = []) {
     return Article.findOne({
       customUri,
-      $or: stateCriteria.map((value: String) => Object.assign({}, { state: value }))
+      $or: stateCriteria.map((value: string) => Object.assign({}, { state: value }))
     })
   }
 

@@ -41,17 +41,14 @@ var ArticleAction = /** @class */ (function () {
         var _this = this;
         var resource = '/articles';
         this._app = app;
-        this._app.route(resource + "/boosted").get(this.getBoosted);
-        this._app.route(resource + "/:customUri/relateds").get(this.getRelateds);
-        this._app.route(resource + "/:customUri").get(this.getOne);
-        this._app.route(resource + "/:customUri/comments").get(function (req, res, next) { return __awaiter(_this, void 0, void 0, function () {
+        this._app.route(resource + "/boosted").get(function (req, res, next) { return __awaiter(_this, void 0, void 0, function () {
             var _a, _b, err_1;
             return __generator(this, function (_c) {
                 switch (_c.label) {
                     case 0:
                         _c.trys.push([0, 2, , 3]);
                         _b = (_a = res).json;
-                        return [4 /*yield*/, this._app.ServiceLocator.commentService.getByArticleUri(req.params.customUri)];
+                        return [4 /*yield*/, this._app.ServiceLocator.articleService.getBoostedArticles(req.query.skip, req.query.take)];
                     case 1:
                         _b.apply(_a, [_c.sent()]);
                         return [3 /*break*/, 3];
@@ -63,16 +60,16 @@ var ArticleAction = /** @class */ (function () {
                 }
             });
         }); });
-    }
-    ArticleAction.prototype.getBoosted = function (req, res, next) {
-        return __awaiter(this, void 0, void 0, function () {
+        this._app.route(resource + "/:customUri/relateds").get(this.getRelateds);
+        this._app.route(resource + "/:customUri").get(this.getOne);
+        this._app.route(resource + "/:customUri/comments").get(function (req, res, next) { return __awaiter(_this, void 0, void 0, function () {
             var _a, _b, err_2;
             return __generator(this, function (_c) {
                 switch (_c.label) {
                     case 0:
                         _c.trys.push([0, 2, , 3]);
                         _b = (_a = res).json;
-                        return [4 /*yield*/, this._app.ServiceLocator.articleService.getBoostedArticles(req.query.skip, req.query.take)];
+                        return [4 /*yield*/, this._app.ServiceLocator.commentService.getByArticleUri(req.params.customUri)];
                     case 1:
                         _b.apply(_a, [_c.sent()]);
                         return [3 /*break*/, 3];
@@ -83,8 +80,8 @@ var ArticleAction = /** @class */ (function () {
                     case 3: return [2 /*return*/];
                 }
             });
-        });
-    };
+        }); });
+    }
     ArticleAction.prototype.getRelateds = function (req, res, next) {
         return __awaiter(this, void 0, void 0, function () {
             var _a, _b, err_3;

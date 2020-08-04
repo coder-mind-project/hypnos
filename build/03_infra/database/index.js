@@ -11,7 +11,11 @@ var Bootstrap = /** @class */ (function () {
     }
     Bootstrap.connect = function () {
         mongoose_1.default
-            .connect(environments_1.database.connectionString)
+            .connect(environments_1.database.connectionString, {
+            useNewUrlParser: true,
+            useCreateIndex: true,
+            useUnifiedTopology: true
+        })
             .then(function () {
             log_1.default.colorPrint('Connection established!', '\x1b[42m', '\x1b[30m', 'Database');
         })

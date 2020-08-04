@@ -1,15 +1,18 @@
-import mongoose from 'mongoose'
+import { Schema, Types, Model, model } from 'mongoose'
+import ITheme from '../interfaces/models/ITheme'
 
 /**
  * @description The Theme Schema
- * @type {mongoose.Schema}
+ * @type {Schema}
  */
-const theme = new mongoose.Schema({
-  _id: { type: mongoose.Types.ObjectId, auto: true },
+const themeSchema = new Schema({
+  _id: { type: Types.ObjectId, auto: true },
   name: { type: String, unique: true, required: true },
   alias: String,
   description: String,
   state: { type: String, default: 'active' }
 })
 
-export default mongoose.model('themes', theme)
+const Theme: Model<ITheme> = model('themes', themeSchema)
+
+export default Theme

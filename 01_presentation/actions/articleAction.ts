@@ -7,7 +7,13 @@ class ArticleAction {
     const resource = '/articles'
     this._app = app
 
-    this._app.route(`${resource}/boosted`).get(this.getBoosted)
+    this._app.route(`${resource}/boosted`).get(async (req: Request, res: Response, next: NextFunction) => {
+      try {
+        res.json(await this._app.ServiceLocator.articleService.getBoostedArticles(req.query.skip, req.query.take))
+      } catch (err) {
+        next(err)
+      }
+    })
 
     this._app.route(`${resource}/:customUri/relateds`).get(this.getRelateds)
 
@@ -20,14 +26,6 @@ class ArticleAction {
         next(err)
       }
     })
-  }
-
-  async getBoosted(req: Request, res: Response, next: NextFunction) {
-    try {
-      res.json(await this._app.ServiceLocator.articleService.getBoostedArticles(req.query.skip, req.query.take))
-    } catch (err) {
-      next(err)
-    }
   }
 
   async getRelateds(req: Request, res: Response, next: NextFunction) {

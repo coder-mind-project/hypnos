@@ -1,12 +1,13 @@
-import mongoose from 'mongoose'
+import { Schema, Types, Model, model } from 'mongoose'
+import IArticle from '../interfaces/models/IArticle'
 
 /**
  * @description The Article Schema
- * @type {mongoose.Schema}
+ * @type {Schema}
  */
-const article = new mongoose.Schema(
+const articleSchema = new Schema(
   {
-    _id: { type: mongoose.Types.ObjectId, auto: true },
+    _id: { type: Types.ObjectId, auto: true },
     title: { type: String, required: true, trim: true },
     description: { type: String, default: null, trim: true },
     state: {
@@ -15,9 +16,9 @@ const article = new mongoose.Schema(
       required: true,
       default: 'draft'
     },
-    themeId: { type: mongoose.Types.ObjectId, default: null },
-    categoryId: { type: mongoose.Types.ObjectId, default: null },
-    userId: { type: mongoose.Types.ObjectId, required: true },
+    themeId: { type: Types.ObjectId, default: null },
+    categoryId: { type: Types.ObjectId, default: null },
+    userId: { type: Types.ObjectId, required: true },
     logoImg: { type: String, default: null, trim: true },
     secondaryImg: { type: String, default: null, trim: true },
     headerImg: { type: String, default: null, trim: true },
@@ -47,4 +48,6 @@ const article = new mongoose.Schema(
   }
 )
 
-export default mongoose.model('articles', article)
+const Article: Model<IArticle> = model('articles', articleSchema)
+
+export default Article

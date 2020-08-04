@@ -1,12 +1,13 @@
-import mongoose from 'mongoose'
+import { Schema, Types, Model, model } from 'mongoose'
+import IUser from '../interfaces/models/IUser'
 
 /**
  * @description The User Schema
- * @type {mongoose.Schema}
+ * @type {Schema}
  */
-const user = new mongoose.Schema(
+const user = new Schema(
   {
-    _id: { type: mongoose.Types.ObjectId, auto: true },
+    _id: { type: Types.ObjectId, auto: true },
     name: String,
     gender: String,
     birthDate: Date,
@@ -42,4 +43,6 @@ const user = new mongoose.Schema(
   }
 )
 
-export default mongoose.model('users', user)
+const User: Model<IUser> = model('users', user)
+
+export default User

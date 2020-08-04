@@ -1,17 +1,14 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-var mongoose_1 = __importDefault(require("mongoose"));
+var mongoose_1 = require("mongoose");
 /**
  * @description The View (Article view) Schema
- * @type {mongoose.Schema}
+ * @type {Schema}
  */
-var view = new mongoose_1.default.Schema({
-    _id: { type: mongoose_1.default.Types.ObjectId, auto: true },
+var viewSchema = new mongoose_1.Schema({
+    _id: { type: mongoose_1.Types.ObjectId, auto: true },
     reader: { type: String, required: true },
-    articleId: { type: mongoose_1.default.Types.ObjectId, required: true },
+    articleId: { type: mongoose_1.Types.ObjectId, required: true },
     accessCount: { type: Number, default: 1, required: true, min: 1 }
 }, {
     timestamps: {
@@ -19,4 +16,5 @@ var view = new mongoose_1.default.Schema({
         updatedAt: 'updatedAt'
     }
 });
-exports.default = mongoose_1.default.model('views', view);
+var View = mongoose_1.model('views', viewSchema);
+exports.default = View;

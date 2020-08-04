@@ -1,16 +1,19 @@
-import mongoose from 'mongoose'
+import { Schema, Types, Model, model } from 'mongoose'
+import ICategory from '../interfaces/models/ICategory'
 
 /**
  * @description The Category Schema
- * @type {mongoose.Schema}
+ * @type {Schema}
  */
-const category = new mongoose.Schema({
-  _id: { type: mongoose.Types.ObjectId, auto: true },
+const categorySchema = new Schema({
+  _id: { type: Types.ObjectId, auto: true },
   name: { type: String, unique: true },
-  themeId: { type: mongoose.Types.ObjectId, required: true },
+  themeId: { type: Types.ObjectId, required: true },
   alias: String,
   description: String,
   state: { type: String, required: true, default: 'active' }
 })
 
-export default mongoose.model('categories', category)
+const Category: Model<ICategory> = model('categories', categorySchema)
+
+export default Category

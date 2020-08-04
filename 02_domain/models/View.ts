@@ -1,14 +1,15 @@
-import mongoose from 'mongoose'
+import { Schema, Types, Model, model } from 'mongoose'
+import IView from '../interfaces/models/IView'
 
 /**
  * @description The View (Article view) Schema
- * @type {mongoose.Schema}
+ * @type {Schema}
  */
-const view = new mongoose.Schema(
+const viewSchema = new Schema(
   {
-    _id: { type: mongoose.Types.ObjectId, auto: true },
+    _id: { type: Types.ObjectId, auto: true },
     reader: { type: String, required: true },
-    articleId: { type: mongoose.Types.ObjectId, required: true },
+    articleId: { type: Types.ObjectId, required: true },
     accessCount: { type: Number, default: 1, required: true, min: 1 }
   },
   {
@@ -19,4 +20,6 @@ const view = new mongoose.Schema(
   }
 )
 
-export default mongoose.model('views', view)
+const View: Model<IView> = model('views', viewSchema)
+
+export default View

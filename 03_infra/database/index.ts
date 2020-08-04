@@ -6,7 +6,11 @@ import { database } from '../environments'
 class Bootstrap {
   static connect() {
     mongoose
-      .connect(database.connectionString)
+      .connect(database.connectionString, {
+        useNewUrlParser: true,
+        useCreateIndex: true,
+        useUnifiedTopology: true
+      })
       .then(() => {
         Log.colorPrint('Connection established!', '\x1b[42m', '\x1b[30m', 'Database')
       })
