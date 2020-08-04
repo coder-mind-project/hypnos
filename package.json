@@ -4,7 +4,7 @@
   "description": "Articles and metrics API",
   "scripts": {
     "start": "node ./build/index.js",
-    "start:develop": "nodemon",
+    "start:develop": "npm run build && nodemon --inspect:9229 ./src/index.ts",
     "build": "rimraf ./build && tsc"
   },
   "author": "Coder Mind",
