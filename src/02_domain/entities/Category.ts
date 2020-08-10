@@ -1,5 +1,5 @@
 import { Schema, Types, Model, model } from 'mongoose'
-import ICategory from '../interfaces/models/ICategory'
+import ICategory from '../interfaces/entities/ICategory'
 
 /**
  * @description The Category Schema

@@ -2,13 +2,11 @@ FROM node:latest as node
 
 WORKDIR /app
 
-COPY package.json .
-COPY package-lock.json .
+ADD . .
 
 RUN npm install
+RUN npm run build
 
-COPY . .
-    
 EXPOSE 3002
 
-CMD ["node", "index.js"]
+CMD ["node", "./build/index.js"]

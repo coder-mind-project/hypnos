@@ -1,14 +1,18 @@
-import { Express } from 'express'
+import { DocumentQuery, Document } from 'mongoose'
 
-class ThemeService {
-  _app: any
+import IExpress from '../../03_infra/interfaces/dependencyInjection/IExpress'
+import IThemeService from '../interfaces/services/IThemeService'
+import IUnitOfWork from '../../03_infra/interfaces/IUnitOfWork'
 
-  constructor(app: Express) {
-    this._app = app
+class ThemeService implements IThemeService {
+  private readonly _unitOfWork: IUnitOfWork
+
+  constructor(app: IExpress) {
+    this._unitOfWork = app.get('unitOfWork')
   }
 
-  get(skip: Number = 0, take: Number = 5) {
-    return this._app.ServiceLocator.unitOfWork.themeRepository.get(skip, take, { state: 'active' })
+  public get(skip: number = 0, limit: number = 5): DocumentQuery<Document[], Document, {}> {
+    return this._unitOfWork.themeRepository.get(skip, limit, { state: 'active' })
   }
 }
 

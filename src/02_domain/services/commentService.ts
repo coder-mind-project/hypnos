@@ -1,17 +1,24 @@
-import { Express } from 'express'
-import mongoose from 'mongoose'
+import { Document } from 'mongoose';
 
 import ResourceNotFound from '../../01_presentation/exceptions/ResourceNotFound'
 import InvalidArgument from '../../01_presentation/exceptions/InvalidArgument'
 
-class CommentService {
-  _app: any
+import IExpress from "../../03_infra/interfaces/dependencyInjection/IExpress";
+import IArticleService from '../interfaces/services/IArticleService';
+import ICommentService from '../interfaces/services/ICommentService';
+import IComment from '../interfaces/entities/IComment';
+import IUnitOfWork from '../../03_infra/interfaces/IUnitOfWork';
 
-  constructor(app: Express) {
-    this._app = app
+class CommentService implements ICommentService {
+  private readonly _articleService: IArticleService
+  private readonly _unitOfWork: IUnitOfWork
+
+  constructor(app: IExpress) {
+    this._unitOfWork = app.get('unitOfWork')
+    this._articleService = app.get('articleService')
   }
 
-  validate(commentModel: any) {
+  private validate(commentModel: IComment): void {
     if (!commentModel.userName) {
       throw new InvalidArgument('Nome é obrigatório')
     }
@@ -25,28 +32,28 @@ class CommentService {
     }
   }
 
-  validateArticle(article: any) {
+  private validateArticle(article: any): void {
     if (!article) {
       throw new ResourceNotFound('Artigo não encontrado')
     }
   }
 
-  async getByArticleUri(uri: String, skip: Number = 0, take: Number = 15) {
-    const article = await this._app.ServiceLocator.articleService.getByCustomUri(uri)
+  public async getByArticleUri(uri: string, skip: number = 0, take: number = 15): Promise<any[]> {
+    const article = await this._articleService.getByCustomUri(uri)
     this.validateArticle(article)
 
-    return this._app.ServiceLocator.unitOfWork.CommentRepository.getByArticle(article._id, skip, take)
+    return this._unitOfWork.commentRepository.getByArticle(article!._id, skip, take)
   }
 
-  async saveComment(commentModel: any, customUri: String) {
+  public async saveComment(commentModel: IComment, customUri: string): Promise<Document> {
     this.validate(commentModel)
 
-    const article = await this._app.ServiceLocator.articleService.getByCustomUri(customUri)
+    const article = await this._articleService.getByCustomUri(customUri)
     this.validateArticle(article)
 
-    commentModel.articleId = article._id
+    commentModel.articleId = article!._id
 
-    return this._app.ServiceLocator.unitOfWork.CommentRepository.create(commentModel)
+    return this._unitOfWork.commentRepository.create(commentModel)
   }
 }
 

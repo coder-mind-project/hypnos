@@ -1,10 +1,10 @@
-import { Express } from 'express'
-
 import ArticleActions from './articleAction'
 import ThemeActions from './themeAction'
 
+import IExpress from '../../03_infra/interfaces/dependencyInjection/IExpress'
+
 class Actions {
-  static configure(express: Express) {
+  static configure(express: IExpress) {
     new ArticleActions(express)
     new ThemeActions(express)
   }

@@ -1,5 +1,5 @@
 import { Schema, Types, Model, model } from 'mongoose'
-import IView from '../interfaces/models/IView'
+import IView from '../interfaces/entities/IView'
 
 /**
  * @description The View (Article view) Schema

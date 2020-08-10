@@ -1,14 +1,12 @@
 import IErrorException from './IErrorException'
 
 class ResourceNotFound extends Error implements IErrorException {
-  statusCode: number
-  stackError?: string
+  public statusCode: number
 
   constructor(msg: string) {
     super()
     this.message = msg
     this.statusCode = 404
-    this.stackError = this.stack
   }
 }
 

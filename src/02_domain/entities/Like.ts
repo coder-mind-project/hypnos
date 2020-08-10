@@ -1,5 +1,5 @@
 import { Schema, Types, Model, model } from 'mongoose'
-import ILike from '../interfaces/models/ILike'
+import ILike from '../interfaces/entities/ILike'
 
 /**
  * @description The Like (Article like) Schema

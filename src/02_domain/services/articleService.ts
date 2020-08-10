@@ -1,22 +1,29 @@
-import { Express } from 'express'
+import { DocumentQuery } from "mongoose";
 
-class ArticleService {
-  _app: any
+import IArticle from "../interfaces/entities/IArticle";
+import IExpress from "../../03_infra/interfaces/dependencyInjection/IExpress";
+import IArticleService from "../interfaces/services/IArticleService";
+import IUnitOfWork from "../../03_infra/interfaces/IUnitOfWork";
 
-  constructor(app: Express) {
-    this._app = app
+import FoundArticles from "../valueObjects/FoundArticles";
+
+class ArticleService implements IArticleService {
+  private readonly _unitOfWork: IUnitOfWork
+
+  constructor(app: IExpress) {
+    this._unitOfWork = app.get('unitOfWork')
   }
 
-  getBoostedArticles(skip: Number = 0, take: Number = 5) {
-    return this._app.ServiceLocator.unitOfWork.articleRepository.getBoosted(skip, take)
+  public getBoostedArticles(skip: number | undefined, limit: number | undefined): Promise<FoundArticles> {
+    return this._unitOfWork.articleRepository.getBoosted(skip, limit)
   }
 
-  getByCustomUri(customUri: String) {
-    return this._app.ServiceLocator.unitOfWork.articleRepository.getByCustomUri(customUri, ['boosted', 'published'])
+  public getByCustomUri(customUri: string): DocumentQuery<IArticle | null, IArticle, {}> {
+    return this._unitOfWork.articleRepository.getByCustomUri(customUri, ['boosted', 'published'])
   }
 
-  getRelateds(articleUri: String, limit: Number = 5) {
-    return this._app.ServiceLocator.unitOfWork.articleRepository.getRelateds(articleUri, limit)
+  public getRelateds(articleUri: string, limit?: number): Promise<any[] | FoundArticles> {
+    return this._unitOfWork.articleRepository.getRelateds(articleUri, limit)
   }
 }
 

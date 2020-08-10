@@ -1,9 +1,8 @@
-import BaseError from './IErrorException'
 import IErrorException from './IErrorException'
 
 class InvalidArgument extends Error implements IErrorException {
-  statusCode: number
-  stackError?: string
+  public statusCode: number
+  public stackError?: string
 
   constructor(msg: string) {
     super()

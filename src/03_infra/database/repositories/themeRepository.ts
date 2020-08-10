@@ -1,7 +1,9 @@
-import Theme from '../../../02_domain/models/Theme'
 import BaseRepository from './baseRepository'
+import IThemeRepository from '../../interfaces/repositories/IThemeRepository'
 
-class ThemeRepository extends BaseRepository {
+import Theme from '../../../02_domain/entities/Theme'
+
+class ThemeRepository extends BaseRepository implements IThemeRepository {
   constructor() {
     super(Theme)
   }

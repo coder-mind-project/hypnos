@@ -1,17 +1,17 @@
-import mongoose from 'mongoose'
+import { Document, Model, Types } from 'mongoose'
 
 class BaseRepository {
-  _model: mongoose.Model<mongoose.Document>
+  _model: Model<Document>
 
-  constructor(model: mongoose.Model<mongoose.Document>) {
+  constructor(model: Model<Document>) {
     this._model = model
   }
 
-  get(skip: number = 0, take: number = 10, query: any = null) {
-    return this._model.find(query).skip(skip).limit(take)
+  get(skip: number = 0, limit: number = 10, query: any = null) {
+    return this._model.find(query).skip(skip).limit(limit)
   }
 
-  getOne(id: mongoose.Types.ObjectId | String) {
+  getOne(id: Types.ObjectId | String) {
     return this._model.findById(id)
   }
 

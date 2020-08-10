@@ -1,5 +1,5 @@
 import { Schema, Types, Model, model } from 'mongoose'
-import IUser from '../interfaces/models/IUser'
+import IUser from '../interfaces/entities/IUser'
 
 /**
  * @description The User Schema

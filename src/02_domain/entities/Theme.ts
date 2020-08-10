@@ -1,5 +1,5 @@
 import { Schema, Types, Model, model } from 'mongoose'
-import ITheme from '../interfaces/models/ITheme'
+import ITheme from '../interfaces/entities/ITheme'
 
 /**
  * @description The Theme Schema

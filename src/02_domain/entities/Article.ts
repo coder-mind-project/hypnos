@@ -1,5 +1,5 @@
 import { Schema, Types, Model, model } from 'mongoose'
-import IArticle from '../interfaces/models/IArticle'
+import IArticle from '../interfaces/entities/IArticle'
 
 /**
  * @description The Article Schema

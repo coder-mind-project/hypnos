@@ -1,5 +1,5 @@
 import { Schema, Types, Model, model } from 'mongoose'
-import IComment from '../interfaces/models/IComment'
+import IComment from '../interfaces/entities/IComment'
 
 /**
  * @description The Comment Schema

@@ -1,17 +1,26 @@
-import Article from '../../../02_domain/models/Article'
-import BaseRepository from '../../../02_domain/models/Article'
+import { DocumentQuery } from 'mongoose'
+
+import BaseRepository from './baseRepository'
+import Article from '../../../02_domain/entities/Article'
+import IArticle from '../../../02_domain/interfaces/entities/IArticle'
+import IArticleRepository from '../../interfaces/repositories/IArticleRepository'
 
 import ResourceNotFound from '../../../01_presentation/exceptions/ResourceNotFound'
+import FoundArticles from '../../../02_domain/valueObjects/FoundArticles'
 
-class ArticleRepository {
-  getByCustomUri(customUri: string, stateCriteria: Array<string> = []) {
+class ArticleRepository extends BaseRepository implements IArticleRepository {
+  constructor() {
+    super(Article)
+  }
+
+  public getByCustomUri(customUri: string, stateCriteria: Array<string> = []): DocumentQuery<IArticle | null, IArticle, {}> {
     return Article.findOne({
       customUri,
       $or: stateCriteria.map((value: string) => Object.assign({}, { state: value }))
     })
   }
 
-  async getBoosted(skip: number, limit: number) {
+  public async getBoosted(skip: number = 0, limit: number = 5): Promise<FoundArticles> {
     const count = await Article.countDocuments({ state: 'boosted' })
 
     const articles = await Article.aggregate([
@@ -25,10 +34,10 @@ class ArticleRepository {
       .skip(skip)
       .limit(limit)
 
-    return { articles, count }
+    return new FoundArticles(articles, count)
   }
 
-  async getRelateds(articleUri: String, limit: number) {
+  public async getRelateds(articleUri: string, limit: number = 5): Promise<any[] | FoundArticles> {
     if (!articleUri) {
       return this.getBoosted(0, limit)
     }

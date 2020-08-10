@@ -1,14 +1,16 @@
+import { Types, Aggregate } from 'mongoose'
+
+import ICommentRepository from '../../interfaces/repositories/ICommentRepository'
 import BaseRepository from './baseRepository'
-import Comment from '../../../02_domain/models/Comment'
 
-import mongoose from 'mongoose'
+import Comment from '../../../02_domain/entities/Comment'
 
-class CommentRepository extends BaseRepository {
+class CommentRepository extends BaseRepository implements ICommentRepository {
   constructor() {
     super(Comment)
   }
 
-  getByArticle(articleId: mongoose.Types.ObjectId | String, skip: number, take: number) {
+  public getByArticle(articleId: Types.ObjectId | String, skip: number, limit: number): Aggregate<any> {
     return Comment.aggregate([
       {
         $match: { articleId, state: 'enabled' }
@@ -18,7 +20,7 @@ class CommentRepository extends BaseRepository {
       }
     ])
       .skip(skip)
-      .limit(take)
+      .limit(limit)
   }
 }
 
