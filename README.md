@@ -23,6 +23,10 @@ Install dependencies with:
 
 `npm install`
 
+Build application with:
+
+`npm run build`
+
 Run the application in development mode with: 
 
 `npm run start:develop`
