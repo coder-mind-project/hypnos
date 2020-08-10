@@ -2,7 +2,7 @@ module.exports = {
   apps: [
     {
       name: 'hypnos',
-      script: 'index.js',
+      script: 'build/index.js',
       watch: '.'
     }
   ]
