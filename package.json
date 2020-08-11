@@ -2,6 +2,11 @@
   "name": "hypnos-api",
   "version": "1.0.6",
   "description": "Articles and metrics API",
+  "repository": {
+    "type": "GIT",
+    "url": "https://github.com/coder-mind-project/hypnos.git"
+  },
+  "license": "BSD-3-Clause",
   "scripts": {
     "start": "node ./build/index.js",
     "start:develop": "npm run build && nodemon --inspect:9229 ./src/index.ts",
@@ -12,7 +17,7 @@
     "Allan Wanderley Alves"
   ],
   "dependencies": {
-    "@allanalves23/jsvalidators": "^0.0.12",
+    "@allanalves23/jsvalidators": "0.0.12",
     "body-parser": "^1.19.0",
     "consign": "^0.1.6",
     "cors": "^2.8.5",
