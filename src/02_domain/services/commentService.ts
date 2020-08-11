@@ -9,6 +9,8 @@ import ICommentService from '../interfaces/services/ICommentService';
 import IComment from '../interfaces/entities/IComment';
 import IUnitOfWork from '../../03_infra/interfaces/IUnitOfWork';
 
+const jsValidators = require('@allanalves23/jsvalidators');
+
 class CommentService implements ICommentService {
   private readonly _articleService: IArticleService
   private readonly _unitOfWork: IUnitOfWork
@@ -27,8 +29,16 @@ class CommentService implements ICommentService {
       throw new InvalidArgument('E-mail é obrigatório')
     }
 
+    if (!jsValidators.emailIsValid(commentModel.userEmail)) {
+      throw new InvalidArgument('E-mail inválido')
+    }
+
     if (!commentModel.message.trim()) {
       throw new InvalidArgument('Informe um comentário')
+    }
+
+    if (commentModel.message.trim().length > 10000) {
+      throw new InvalidArgument('Comentários acima de 10 mil caracteres não são permitidos')
     }
   }
 

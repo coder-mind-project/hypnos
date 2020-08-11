@@ -22,6 +22,7 @@ class ArticleAction {
     this._app.route(`${resource}/:customUri`).get(this.getOne);
     this._app.route(`${resource}/:customUri/relateds`).get(this.getRelateds);
     this._app.route(`${resource}/:customUri/comments`).get(this.getComments);
+    this._app.route(`${resource}/:customUri/comments`).post(this.saveComment);
   }
 
   getBoosted = async (req: Request, res: Response, next: NextFunction) => {
@@ -59,6 +60,15 @@ class ArticleAction {
   getComments = async (req: Request, res: Response, next: NextFunction) => {
     try {
       res.json(await this._commentService.getByArticleUri(req.params.customUri))
+    } catch (err) {
+      next(err)
+    }
+  }
+
+  saveComment = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      await this._commentService.saveComment(req.body, req.params.customUri);
+      res.status(201).send();
     } catch (err) {
       next(err)
     }
