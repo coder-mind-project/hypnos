@@ -23,6 +23,7 @@ class ArticleAction {
     this._app.route(`${resource}/:customUri/relateds`).get(this.getRelateds);
     this._app.route(`${resource}/:customUri/comments`).get(this.getComments);
     this._app.route(`${resource}/:customUri/comments`).post(this.saveComment);
+    this._app.route(`${resource}/:customUri/views`).post(this.saveView);
   }
 
   getBoosted = async (req: Request, res: Response, next: NextFunction) => {
@@ -68,6 +69,15 @@ class ArticleAction {
   saveComment = async (req: Request, res: Response, next: NextFunction) => {
     try {
       await this._commentService.saveComment(req.body, req.params.customUri);
+      res.status(201).send();
+    } catch (err) {
+      next(err)
+    }
+  }
+
+  saveView = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      await this._articleService.saveView(req.params.customUri, req.body.reader);
       res.status(201).send();
     } catch (err) {
       next(err)

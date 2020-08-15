@@ -8,15 +8,19 @@ class BaseRepository {
   }
 
   get(skip: number = 0, limit: number = 10, query: any = null) {
-    return this._model.find(query).skip(skip).limit(limit)
+    return this._model.find(query).skip(skip).limit(limit);
   }
 
-  getOne(id: Types.ObjectId | String) {
-    return this._model.findById(id)
+  getOneById(id: Types.ObjectId | String) {
+    return this._model.findById(id);
+  }
+
+  getOne(query: any = null) {
+    return this._model.findOne(query);
   }
 
   create(model: Object) {
-    return new this._model(model).save()
+    return new this._model(model).save();
   }
 }
 
