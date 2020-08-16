@@ -1,4 +1,4 @@
-import { Document, Types } from 'mongoose'
+import { Document, Types } from 'mongoose';
 
 interface IArticle extends Document {
   _id: Types.ObjectId;
@@ -26,4 +26,4 @@ interface IArticle extends Document {
   updatedAt: Date;
 }
 
-export default IArticle
+export default IArticle;

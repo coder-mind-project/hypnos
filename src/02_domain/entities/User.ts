@@ -1,10 +1,6 @@
-import { Schema, Types, Model, model } from 'mongoose'
-import IUser from '../interfaces/entities/IUser'
+import { Schema, Types, Model, model } from 'mongoose';
+import IUser from '../interfaces/entities/IUser';
 
-/**
- * @description The User Schema
- * @type {Schema}
- */
 const user = new Schema(
   {
     _id: { type: Types.ObjectId, auto: true },
@@ -41,8 +37,8 @@ const user = new Schema(
       updatedAt: 'updatedAt'
     }
   }
-)
+);
 
-const User: Model<IUser> = model('users', user)
+const User: Model<IUser> = model('users', user);
 
-export default User
+export default User;

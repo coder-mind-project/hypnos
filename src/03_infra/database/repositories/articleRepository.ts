@@ -1,27 +1,30 @@
-import { DocumentQuery } from 'mongoose'
+import { DocumentQuery } from 'mongoose';
 
-import BaseRepository from './baseRepository'
-import Article from '../../../02_domain/entities/Article'
-import IArticle from '../../../02_domain/interfaces/entities/IArticle'
-import IArticleRepository from '../../interfaces/repositories/IArticleRepository'
+import BaseRepository from './baseRepository';
+import Article from '../../../02_domain/entities/Article';
+import IArticle from '../../../02_domain/interfaces/entities/IArticle';
+import IArticleRepository from '../../interfaces/repositories/IArticleRepository';
 
-import ResourceNotFound from '../../../01_presentation/exceptions/ResourceNotFound'
-import FoundArticles from '../../../02_domain/valueObjects/FoundArticles'
+import ResourceNotFound from '../../../01_presentation/exceptions/ResourceNotFound';
+import FoundArticles from '../../../02_domain/valueObjects/FoundArticles';
 
 class ArticleRepository extends BaseRepository implements IArticleRepository {
   constructor() {
-    super(Article)
+    super(Article);
   }
 
-  public getByCustomUri(customUri: string, stateCriteria: Array<string> = []): DocumentQuery<IArticle | null, IArticle, {}> {
+  public getByCustomUri(
+    customUri: string,
+    stateCriteria: Array<string> = []
+  ): DocumentQuery<IArticle | null, IArticle, unknown> {
     return Article.findOne({
       customUri,
       $or: stateCriteria.map((value: string) => Object.assign({}, { state: value }))
-    })
+    });
   }
 
-  public async getBoosted(skip: number = 0, limit: number = 5): Promise<FoundArticles> {
-    const count = await Article.countDocuments({ state: 'boosted' })
+  public async getBoosted(skip = 0, limit = 5): Promise<FoundArticles> {
+    const count = await Article.countDocuments({ state: 'boosted' });
 
     const articles = await Article.aggregate([
       {
@@ -32,19 +35,19 @@ class ArticleRepository extends BaseRepository implements IArticleRepository {
       }
     ])
       .skip(skip)
-      .limit(limit)
+      .limit(limit);
 
-    return new FoundArticles(articles, count)
+    return new FoundArticles(articles, count);
   }
 
-  public async getRelateds(articleUri: string, limit: number = 5): Promise<any[] | FoundArticles> {
+  public async getRelateds(articleUri: string, limit = 5): Promise<unknown[] | FoundArticles> {
     if (!articleUri) {
-      return this.getBoosted(0, limit)
+      return this.getBoosted(0, limit);
     }
 
-    const article = await Article.findOne({ customUri: `${articleUri}` })
+    const article = await Article.findOne({ customUri: `${articleUri}` });
 
-    if (!article) throw new ResourceNotFound('Artigo não encontrado')
+    if (!article) throw new ResourceNotFound('Artigo não encontrado');
 
     return Article.aggregate([
       {
@@ -68,8 +71,8 @@ class ArticleRepository extends BaseRepository implements IArticleRepository {
       {
         $sort: { publishedAt: -1, boostedAt: -1 }
       }
-    ])
+    ]);
   }
 }
 
-export default ArticleRepository
+export default ArticleRepository;

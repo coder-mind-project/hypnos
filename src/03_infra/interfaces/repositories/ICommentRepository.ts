@@ -1,8 +1,8 @@
-import { Types, Aggregate } from "mongoose";
-import BaseRepository from "../../database/repositories/baseRepository";
+import { Types, Aggregate } from 'mongoose';
+import BaseRepository from '../../database/repositories/baseRepository';
 
 interface ICommentRepository extends BaseRepository {
-    getByArticle(articleId: Types.ObjectId | String, skip: number, limit: number): Aggregate<any>;
+  getByArticle(articleId: Types.ObjectId | string, skip: number, limit: number): Aggregate<unknown>;
 }
 
-export default ICommentRepository
+export default ICommentRepository;

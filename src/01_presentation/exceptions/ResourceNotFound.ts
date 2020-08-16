@@ -1,13 +1,13 @@
-import IErrorException from './IErrorException'
+import IErrorException from './IErrorException';
 
 class ResourceNotFound extends Error implements IErrorException {
-  public statusCode: number
+  public statusCode: number;
 
   constructor(msg: string) {
-    super()
-    this.message = msg
-    this.statusCode = 404
+    super();
+    this.message = msg;
+    this.statusCode = 404;
   }
 }
 
-export default ResourceNotFound
+export default ResourceNotFound;
