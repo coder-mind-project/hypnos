@@ -24,7 +24,7 @@ class ArticleService implements IArticleService {
     return this._unitOfWork.articleRepository.getByCustomUri(customUri, ['boosted', 'published']);
   }
 
-  public getRelateds(articleUri: string, limit?: number): Promise<unknown[] | FoundArticles> {
+  public getRelateds(articleUri: string, limit?: number): Promise<FoundArticles> {
     return this._unitOfWork.articleRepository.getRelateds(articleUri, limit);
   }
 

@@ -32,14 +32,14 @@ class ArticleAction {
 
   getBoosted = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-      const ArticlesFound: FoundArticles = await this._articleService.getBoostedArticles(
+      const articlesFound: FoundArticles = await this._articleService.getBoostedArticles(
         getNumber(req.query.skip),
         getNumber(req.query.limit)
       );
 
       res.json({
-        articles: ArticlesFound.articles.map((article: IArticle) => new ArticleModel(article)),
-        count: ArticlesFound.count
+        articles: articlesFound.articles.map((article: IArticle) => new ArticleModel(article)),
+        count: articlesFound.count
       });
     } catch (err) {
       next(err);
@@ -48,7 +48,15 @@ class ArticleAction {
 
   getRelateds = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-      res.json(await this._articleService.getRelateds(req.params.customUri, getNumber(req.query.limit)));
+      const articlesFound: FoundArticles = await this._articleService.getRelateds(
+        req.params.customUri,
+        getNumber(req.query.limit)
+      );
+
+      res.json({
+        articles: articlesFound.articles.map((article: IArticle) => new ArticleModel(article)),
+        count: articlesFound.count
+      });
     } catch (err) {
       next(err);
     }

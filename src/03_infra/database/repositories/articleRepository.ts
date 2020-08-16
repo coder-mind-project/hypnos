@@ -40,7 +40,7 @@ class ArticleRepository extends BaseRepository implements IArticleRepository {
     return new FoundArticles(articles, count);
   }
 
-  public async getRelateds(articleUri: string, limit = 5): Promise<unknown[] | FoundArticles> {
+  public async getRelateds(articleUri: string, limit = 5): Promise<FoundArticles> {
     if (!articleUri) {
       return this.getBoosted(0, limit);
     }
@@ -49,7 +49,7 @@ class ArticleRepository extends BaseRepository implements IArticleRepository {
 
     if (!article) throw new ResourceNotFound('Artigo não encontrado');
 
-    return Article.aggregate([
+    const articles = await Article.aggregate([
       {
         $match: {
           _id: { $ne: article._id },
@@ -71,7 +71,9 @@ class ArticleRepository extends BaseRepository implements IArticleRepository {
       {
         $sort: { publishedAt: -1, boostedAt: -1 }
       }
-    ]);
+    ]).limit(limit);
+
+    return new FoundArticles(articles, articles.length);
   }
 }
 
