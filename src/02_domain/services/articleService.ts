@@ -1,4 +1,4 @@
-import { DocumentQuery, Types, Document } from "mongoose";
+import { DocumentQuery, Document } from "mongoose";
 
 import IArticle from "../interfaces/entities/IArticle";
 import IExpress from "../../03_infra/interfaces/dependencyInjection/IExpress";
@@ -28,14 +28,24 @@ class ArticleService implements IArticleService {
     return this._unitOfWork.articleRepository.getRelateds(articleUri, limit)
   }
 
-  public async saveView(articleUri: string, readerIdentifier: string): Promise<Document> {
-    if (!readerIdentifier)
+  private validateReader(reader: string): void {
+    if (!reader)
       throw new InvalidArgument("É necessário fornecer um leitor válido");
+  }
 
+  private async getArticleByCustomUri(articleUri: string): Promise<IArticle> {
     const article: IArticle | null = await this.getByCustomUri(articleUri);
 
     if (!article)
       throw new ResourceNotFound("Artigo não encontrado");
+    else
+      return article
+  }
+
+  public async saveView(articleUri: string, readerIdentifier: string): Promise<Document> {
+    this.validateReader(readerIdentifier);
+
+    const article = await this.getArticleByCustomUri(articleUri);
 
     const view = await this._unitOfWork.viewRepository.getOne({
       articleId: article._id,
@@ -53,6 +63,30 @@ class ArticleService implements IArticleService {
       }
 
       return this._unitOfWork.viewRepository.create(newView);
+    }
+  }
+
+  public async saveLike(articleUri: string, readerIdentifier: string): Promise<Document> {
+    this.validateReader(readerIdentifier);
+
+    const article = await this.getArticleByCustomUri(articleUri);
+
+    const like = await this._unitOfWork.likeRepository.getOne({
+      articleId: article._id,
+      reader: readerIdentifier
+    });
+
+    if (like) {
+      like.set('active', !like.get('active'));
+      return like.save();
+    } else {
+      const newLike = {
+        articleId: article._id,
+        reader: readerIdentifier,
+        active: true
+      }
+
+      return this._unitOfWork.likeRepository.create(newLike);
     }
   }
 }

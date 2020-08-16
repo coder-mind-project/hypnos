@@ -8,6 +8,7 @@ interface IArticleService {
     getByCustomUri(customUri: string): DocumentQuery<IArticle | null, IArticle, {}>;
     getRelateds(articleUri: string, limit?: number): Promise<any[] | FoundArticles>;
     saveView(articleId: string, readerName: string): Promise<Document>;
+    saveLike(articleId: string, readerName: string): Promise<Document>;
 }
 
 export default IArticleService;
