@@ -13,9 +13,10 @@ export const captcha = {
 
 export const smtp = {
   server: process.env.SMTP_SERVER,
-  port: process.env.SMTP_PORT,
+  port: Number(process.env.SMTP_PORT),
   secure: Boolean(process.env.SMTP_SECURE === 'true'),
   user: process.env.SMTP_USER,
   pass: process.env.SMTP_PASS,
-  receiver: process.env.SMTP_RECEIVER
+  receiver: process.env.SMTP_RECEIVER,
+  issuer: process.env.SMTP_ISSUER
 }

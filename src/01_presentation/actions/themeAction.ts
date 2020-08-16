@@ -1,10 +1,10 @@
 import { Request, Response, NextFunction } from 'express'
 import IExpress from '../../03_infra/interfaces/dependencyInjection/IExpress'
-import ThemeService from '../../02_domain/services/themeService'
+import IThemeService from '../../02_domain/interfaces/services/IThemeService'
 
 class ThemeAction {
   private readonly _app: IExpress
-  private readonly _themeService: ThemeService
+  private readonly _themeService: IThemeService
 
   constructor(app: IExpress) {
     const resource = '/themes'
