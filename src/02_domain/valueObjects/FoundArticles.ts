@@ -1,10 +1,10 @@
-import Article from '../entities/Article';
+import IArticle from '../interfaces/entities/IArticle';
 
 class FoundArticles {
-  public articles: typeof Article[];
+  public articles: IArticle[];
   public count: number;
 
-  constructor(articles: typeof Article[], count: number) {
+  constructor(articles: IArticle[], count: number) {
     this.articles = articles;
     this.count = count;
   }
