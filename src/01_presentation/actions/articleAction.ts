@@ -5,6 +5,9 @@ import IArticleService from '../../02_domain/interfaces/services/IArticleService
 import ICommentService from '../../02_domain/interfaces/services/ICommentService';
 
 import { getNumber } from '../serializers/NumberParser';
+import IArticle from '../../02_domain/interfaces/entities/IArticle';
+import FoundArticles from '../../02_domain/valueObjects/FoundArticles';
+import ArticleModel from '../models/ArticleModel';
 
 class ArticleAction {
   private readonly _app: IExpress;
@@ -29,7 +32,15 @@ class ArticleAction {
 
   getBoosted = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-      res.json(await this._articleService.getBoostedArticles(getNumber(req.query.skip), getNumber(req.query.limit)));
+      const ArticlesFound: FoundArticles = await this._articleService.getBoostedArticles(
+        getNumber(req.query.skip),
+        getNumber(req.query.limit)
+      );
+
+      res.json({
+        articles: ArticlesFound.articles.map((article: IArticle) => new ArticleModel(article)),
+        count: ArticlesFound.count
+      });
     } catch (err) {
       next(err);
     }
