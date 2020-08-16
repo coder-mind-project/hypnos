@@ -25,10 +25,7 @@
     "express": "^4.17.1",
     "mongoose": "^5.9.26",
     "mongoose-unique-validator": "^2.0.3",
-    "nodemailer": "^6.4.10",
-    "public-ip": "^4.0.2",
-    "request": "^2.88.2",
-    "request-promise": "^4.2.6"
+    "nodemailer": "^6.4.10"
   },
   "devDependencies": {
     "@types/cors": "^2.8.7",
