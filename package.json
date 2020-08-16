@@ -1,7 +1,7 @@
 {
   "name": "hypnos-api",
-  "version": "1.0.6",
-  "description": "Articles and metrics API",
+  "version": "1.1.0",
+  "description": "Domain Coder Mind provider - Get articles, authors and associated things - Blog API",
   "repository": {
     "type": "GIT",
     "url": "https://github.com/coder-mind-project/hypnos.git"
@@ -9,7 +9,6 @@
   "license": "BSD-3-Clause",
   "scripts": {
     "start": "node ./build/index.js",
-    "start:develop": "npm run build && nodemon --inspect:9229 ./src/index.ts",
     "build": "rimraf ./build && tsc -p .",
     "lint": "eslint . --ext .ts"
   },
@@ -18,9 +17,8 @@
     "Allan Wanderley Alves"
   ],
   "dependencies": {
-    "@allanalves23/jsvalidators": "0.0.12",
+    "@allanalves23/jsvalidators": "0.0.14",
     "body-parser": "^1.19.0",
-    "consign": "^0.1.6",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
@@ -41,7 +39,6 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
-    "nodemon": "^2.0.4",
     "rimraf": "^3.0.2",
     "ts-node": "^8.10.2",
     "typescript": "^3.9.7"
