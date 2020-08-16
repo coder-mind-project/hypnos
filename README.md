@@ -26,11 +26,7 @@ Build application with:
 
 `npm run build`
 
-Run the application in development mode with: 
-
-`npm run start:develop`
-
-Run the application in production mode with:
+Run the application with:
 
 `npm start`
 ___
