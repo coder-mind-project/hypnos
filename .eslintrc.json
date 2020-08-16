@@ -1,21 +1,38 @@
 {
+    "root": true,
     "env": {
         "browser": true,
         "commonjs": true,
         "es2020": true
     },
     "extends": [
-        "standard"
+        "standard",
+        "eslint:recommended",
+        "plugin:@typescript-eslint/eslint-recommended",
+        "plugin:@typescript-eslint/recommended"
     ],
+    "parser": "@typescript-eslint/parser",
     "parserOptions": {
         "ecmaVersion": 11
     },
+    "plugins": [
+        "@typescript-eslint"
+    ],
     "rules": {
-        "no-throw-literal": "off",
+        "no-throw-literal": "error",
         "no-unused-vars": "off",
         "space-before-function-paren": "off",
         "no-console": "error",
         "no-var": "error",
-        "no-param-reassign": "error"
+        "no-undef": "off",
+        "no-param-reassign": "error",
+        "semi-spacing": "error",
+        "semi": [
+            2,
+            "always"
+        ],
+        "curly": "off",
+        "no-new": "off",
+        "@typescript-eslint/no-non-null-assertion": "off"
     }
 }

@@ -6,25 +6,25 @@ import ISMTPService from '../../interfaces/services/smtp/IsmtpService';
 import ISMTPMessageSent from './IsmtpMessageSent';
 
 class SMTPService implements ISMTPService {
-    private _mail: Mail;
+  private _mail: Mail;
 
-    constructor() {
-        this._mail = nodemailer.createTransport(SMTPTransporter)
-    }
+  constructor() {
+    this._mail = nodemailer.createTransport(SMTPTransporter);
+  }
 
-    public async sendMail(
-        from: string,
-        to: string,
-        subject: string,
-        textContent?: string,
-        htmlContent?: string
-    ): Promise<ISMTPMessageSent> {
-        const mail: SMTPMail = new SMTPMail(from, to, subject, String(textContent), String(htmlContent));
-        mail.validate();
+  public async sendMail(
+    from: string,
+    to: string,
+    subject: string,
+    textContent?: string,
+    htmlContent?: string
+  ): Promise<ISMTPMessageSent> {
+    const mail: SMTPMail = new SMTPMail(from, to, subject, String(textContent), String(htmlContent));
+    mail.validate();
 
-        const messageSent: ISMTPMessageSent = await this._mail.sendMail(mail);
-        return messageSent;
-    }
+    const messageSent: ISMTPMessageSent = await this._mail.sendMail(mail);
+    return messageSent;
+  }
 }
 
-export default SMTPService
+export default SMTPService;

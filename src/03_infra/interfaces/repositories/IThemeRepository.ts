@@ -1,7 +1,5 @@
-import BaseRepository from "../../database/repositories/baseRepository";
+import BaseRepository from '../../database/repositories/baseRepository';
 
-interface IThemeRepository extends BaseRepository {
+type IThemeRepository = BaseRepository;
 
-}
-
-export default IThemeRepository
+export default IThemeRepository;

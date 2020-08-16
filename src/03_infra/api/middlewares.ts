@@ -1,10 +1,10 @@
-import bodyParser from 'body-parser'
-import { Express } from 'express'
+import bodyParser from 'body-parser';
+import { Express } from 'express';
 
 class Middlewares {
-  static configure(express: Express, reqBodySize: Number = 1) {
-    express.use(bodyParser.json({ limit: `${reqBodySize}mb` }))
+  static configure(express: Express, reqBodySize = 1): void {
+    express.use(bodyParser.json({ limit: `${reqBodySize}mb` }));
   }
 }
 
-export default Middlewares
+export default Middlewares;

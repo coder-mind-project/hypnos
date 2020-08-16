@@ -1,4 +1,4 @@
-import { Document, Types } from 'mongoose'
+import { Document, Types } from 'mongoose';
 
 interface ITheme extends Document {
   _id: Types.ObjectId;
@@ -8,4 +8,4 @@ interface ITheme extends Document {
   state: string;
 }
 
-export default ITheme
+export default ITheme;

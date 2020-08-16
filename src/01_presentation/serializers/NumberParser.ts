@@ -1,5 +1,5 @@
-export const getNumber = (numberCandidate: any): number | undefined => {
-    return Number(numberCandidate) || undefined;
-}
+export const getNumber = (numberCandidate: unknown): number | undefined => {
+  return Number(numberCandidate) || undefined;
+};
 
-export default { getNumber }
+export default { getNumber };

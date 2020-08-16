@@ -1,4 +1,4 @@
-import { Document, Types } from 'mongoose'
+import { Document, Types } from 'mongoose';
 
 interface IUser extends Document {
   _id: Types.ObjectId;
@@ -21,8 +21,8 @@ interface IUser extends Document {
   especiality: string;
   tagAuthor: string;
   customUrl: string;
-  publicProfile: Boolean;
-  platformStats: Boolean;
+  publicProfile: boolean;
+  platformStats: boolean;
   confirmEmail: string;
   confirmEmailToken: string;
   lastEmailTokenSendAt: number;
@@ -32,4 +32,4 @@ interface IUser extends Document {
   updatedAt: Date;
 }
 
-export default IUser
+export default IUser;
