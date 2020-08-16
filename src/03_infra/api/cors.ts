@@ -1,17 +1,19 @@
 import { Express } from 'express'
-import cors from 'cors'
+import NotAuthorized from '../../01_presentation/exceptions/NotAuthorized'
+
+const cors = require('cors')
 
 class Cors {
   allowOrigins(origin: string, callback: Function) {
-    if (process.env.ORIGINS?.indexOf(origin) !== -1 || !origin) {
+    if (JSON.parse(String(process.env.ORIGINS))?.allowed?.indexOf(origin) !== -1) {
       callback(null, true)
     } else {
-      callback(new Error('Not allowed by CORS'))
+      callback(new NotAuthorized('Not allowed by CORS'))
     }
   }
 
   configure(express: Express) {
-    express.use(cors())
+    express.use(cors({ origin: this.allowOrigins }))
   }
 }
 
