@@ -1,13 +1,13 @@
-import IErrorException from './IErrorException'
+import IErrorException from './IErrorException';
 
 class InvalidArgument extends Error implements IErrorException {
-  public statusCode: number
+  public statusCode: number;
 
   constructor(msg: string) {
-    super()
-    this.message = msg
-    this.statusCode = 400
+    super();
+    this.message = msg;
+    this.statusCode = 400;
   }
 }
 
-export default InvalidArgument
+export default InvalidArgument;

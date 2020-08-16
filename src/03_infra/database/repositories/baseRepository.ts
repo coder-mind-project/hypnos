@@ -1,27 +1,27 @@
-import { Document, Model, Types } from 'mongoose'
+import { Document, Model, Types, DocumentQuery, MongooseFilterQuery } from 'mongoose';
 
 class BaseRepository {
-  _model: Model<Document>
+  _model: Model<Document>;
 
   constructor(model: Model<Document>) {
-    this._model = model
+    this._model = model;
   }
 
-  get(skip: number = 0, limit: number = 10, query: any = null) {
+  get(skip = 0, limit = 10, query: MongooseFilterQuery<unknown>): DocumentQuery<Document[], Document, unknown> {
     return this._model.find(query).skip(skip).limit(limit);
   }
 
-  getOneById(id: Types.ObjectId | String) {
+  getOneById(id: Types.ObjectId | string): DocumentQuery<Document | null, Document, unknown> {
     return this._model.findById(id);
   }
 
-  getOne(query: any = null) {
+  getOne(query: MongooseFilterQuery<unknown>): DocumentQuery<Document | null, Document, unknown> {
     return this._model.findOne(query);
   }
 
-  create(model: Object) {
+  create(model: unknown): Promise<Document> {
     return new this._model(model).save();
   }
 }
 
-export default BaseRepository
+export default BaseRepository;

@@ -1,4 +1,4 @@
-import { Document, Types } from 'mongoose'
+import { Document, Types } from 'mongoose';
 
 interface IComment extends Document {
   _id: Types.ObjectId;
@@ -15,4 +15,4 @@ interface IComment extends Document {
   updatedAt: Date;
 }
 
-export default IComment
+export default IComment;

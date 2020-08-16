@@ -1,10 +1,6 @@
-import { Schema, Types, Model, model } from 'mongoose'
-import ILike from '../interfaces/entities/ILike'
+import { Schema, Types, Model, model } from 'mongoose';
+import ILike from '../interfaces/entities/ILike';
 
-/**
- * @description The Like (Article like) Schema
- * @type {Schema}
- */
 const likeSchema = new Schema(
   {
     _id: { type: Types.ObjectId, auto: true },
@@ -18,8 +14,8 @@ const likeSchema = new Schema(
       updatedAt: 'updatedAt'
     }
   }
-)
+);
 
-const Like: Model<ILike> = model('likes', likeSchema)
+const Like: Model<ILike> = model('likes', likeSchema);
 
-export default Like
+export default Like;

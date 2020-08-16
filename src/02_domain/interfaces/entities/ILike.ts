@@ -1,4 +1,4 @@
-import { Document, Types } from 'mongoose'
+import { Document, Types } from 'mongoose';
 
 interface ILike extends Document {
   _id: Types.ObjectId;
@@ -9,4 +9,4 @@ interface ILike extends Document {
   updatedAt: Date;
 }
 
-export default ILike
+export default ILike;

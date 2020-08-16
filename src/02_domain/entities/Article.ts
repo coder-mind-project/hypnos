@@ -1,10 +1,6 @@
-import { Schema, Types, Model, model } from 'mongoose'
-import IArticle from '../interfaces/entities/IArticle'
+import { Schema, Types, Model, model } from 'mongoose';
+import IArticle from '../interfaces/entities/IArticle';
 
-/**
- * @description The Article Schema
- * @type {Schema}
- */
 const articleSchema = new Schema(
   {
     _id: { type: Types.ObjectId, auto: true },
@@ -46,8 +42,8 @@ const articleSchema = new Schema(
       updatedAt: 'updatedAt'
     }
   }
-)
+);
 
-const Article: Model<IArticle> = model('articles', articleSchema)
+const Article: Model<IArticle> = model('articles', articleSchema);
 
-export default Article
+export default Article;

@@ -1,5 +1,5 @@
-import BaseRepository from "../../database/repositories/baseRepository";
+import BaseRepository from '../../database/repositories/baseRepository';
 
-interface IViewRepository extends BaseRepository { }
+type IViewRepository = BaseRepository;
 
-export default IViewRepository
+export default IViewRepository;

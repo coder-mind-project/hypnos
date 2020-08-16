@@ -1,10 +1,6 @@
-import { Schema, Types, Model, model } from 'mongoose'
-import IView from '../interfaces/entities/IView'
+import { Schema, Types, Model, model } from 'mongoose';
+import IView from '../interfaces/entities/IView';
 
-/**
- * @description The View (Article view) Schema
- * @type {Schema}
- */
 const viewSchema = new Schema(
   {
     _id: { type: Types.ObjectId, auto: true },
@@ -18,8 +14,8 @@ const viewSchema = new Schema(
       updatedAt: 'updatedAt'
     }
   }
-)
+);
 
-const View: Model<IView> = model('views', viewSchema)
+const View: Model<IView> = model('views', viewSchema);
 
-export default View
+export default View;

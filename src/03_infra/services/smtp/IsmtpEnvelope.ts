@@ -1,6 +1,6 @@
 interface ISMTPEnvelope {
-    from: string;
-    to: string;
+  from: string;
+  to: string;
 }
 
 export default ISMTPEnvelope;

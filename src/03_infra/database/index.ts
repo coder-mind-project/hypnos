@@ -1,10 +1,10 @@
-import Log from '../services/log'
-import mongoose from 'mongoose'
+import Log from '../services/log';
+import mongoose from 'mongoose';
 
-import { database } from '../environments'
+import { database } from '../environments';
 
 class Bootstrap {
-  static connect() {
+  static connect(): void {
     mongoose
       .connect(database.connectionString, {
         useNewUrlParser: true,
@@ -12,7 +12,7 @@ class Bootstrap {
         useUnifiedTopology: true
       })
       .then(() => {
-        Log.colorPrint('Connection established!', '\x1b[42m', '\x1b[30m', 'Database')
+        Log.colorPrint('Connection established!', '\x1b[42m', '\x1b[30m', 'Database');
       })
       .catch(e => {
         Log.colorPrint(
@@ -20,9 +20,9 @@ class Bootstrap {
           '\x1b[41m',
           '\x1b[37m',
           'Database'
-        )
-      })
+        );
+      });
   }
 }
 
-export default Bootstrap
+export default Bootstrap;

@@ -1,5 +1,5 @@
-import BaseRepository from "../../database/repositories/baseRepository";
+import BaseRepository from '../../database/repositories/baseRepository';
 
-interface ILikeRepository extends BaseRepository { }
+type ILikeRepository = BaseRepository;
 
-export default ILikeRepository
+export default ILikeRepository;

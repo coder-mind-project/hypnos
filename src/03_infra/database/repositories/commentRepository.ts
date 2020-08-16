@@ -1,16 +1,16 @@
-import { Types, Aggregate } from 'mongoose'
+import { Types, Aggregate } from 'mongoose';
 
-import ICommentRepository from '../../interfaces/repositories/ICommentRepository'
-import BaseRepository from './baseRepository'
+import ICommentRepository from '../../interfaces/repositories/ICommentRepository';
+import BaseRepository from './baseRepository';
 
-import Comment from '../../../02_domain/entities/Comment'
+import Comment from '../../../02_domain/entities/Comment';
 
 class CommentRepository extends BaseRepository implements ICommentRepository {
   constructor() {
-    super(Comment)
+    super(Comment);
   }
 
-  public getByArticle(articleId: Types.ObjectId | String, skip: number, limit: number): Aggregate<any> {
+  public getByArticle(articleId: Types.ObjectId | string, skip: number, limit: number): Aggregate<unknown> {
     return Comment.aggregate([
       {
         $match: { articleId, state: 'enabled' }
@@ -20,8 +20,8 @@ class CommentRepository extends BaseRepository implements ICommentRepository {
       }
     ])
       .skip(skip)
-      .limit(limit)
+      .limit(limit);
   }
 }
 
-export default CommentRepository
+export default CommentRepository;

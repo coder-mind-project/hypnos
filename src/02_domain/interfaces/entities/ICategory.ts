@@ -1,4 +1,4 @@
-import { Document, Types } from 'mongoose'
+import { Document, Types } from 'mongoose';
 
 interface ICategory extends Document {
   _id: Types.ObjectId;
@@ -9,4 +9,4 @@ interface ICategory extends Document {
   state: string;
 }
 
-export default ICategory
+export default ICategory;
