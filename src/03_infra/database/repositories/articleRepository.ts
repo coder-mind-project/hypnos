@@ -1,5 +1,3 @@
-import { DocumentQuery } from 'mongoose';
-
 import BaseRepository from './baseRepository';
 import Article from '../../../02_domain/entities/Article';
 import IArticle from '../../../02_domain/interfaces/entities/IArticle';
@@ -13,11 +11,8 @@ class ArticleRepository extends BaseRepository implements IArticleRepository {
     super(Article);
   }
 
-  public getByCustomUri(
-    customUri: string,
-    stateCriteria: Array<string> = []
-  ): DocumentQuery<IArticle | null, IArticle, unknown> {
-    return Article.findOne({
+  public async getByCustomUri(customUri: string, stateCriteria: Array<string> = []): Promise<IArticle | null> {
+    return await Article.findOne({
       customUri,
       $or: stateCriteria.map((value: string) => Object.assign({}, { state: value }))
     });

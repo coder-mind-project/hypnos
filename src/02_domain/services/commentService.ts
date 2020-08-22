@@ -1,5 +1,3 @@
-import { Document, Aggregate } from 'mongoose';
-
 import ResourceNotFound from '../../01_presentation/exceptions/ResourceNotFound';
 import InvalidArgument from '../../01_presentation/exceptions/InvalidArgument';
 
@@ -41,14 +39,14 @@ class CommentService implements ICommentService {
     }
   }
 
-  public async getByArticleUri(uri: string, skip = 0, take = 15): Aggregate<unknown> {
+  public async getByArticleUri(uri: string, skip = 0, take = 15): Promise<IComment[]> {
     const article = await this._articleService.getByCustomUri(uri);
     this.validateArticle(article);
 
-    return this._unitOfWork.commentRepository.getByArticle(article!._id, skip, take);
+    return await this._unitOfWork.commentRepository.getByArticle(article!._id, skip, take);
   }
 
-  public async saveComment(commentModel: IComment, customUri: string): Promise<Document> {
+  public async saveComment(commentModel: IComment, customUri: string): Promise<string> {
     this.validate(commentModel);
 
     const article = await this._articleService.getByCustomUri(customUri);
@@ -56,7 +54,7 @@ class CommentService implements ICommentService {
 
     commentModel.articleId = article!._id;
 
-    return this._unitOfWork.commentRepository.create(commentModel);
+    return (await this._unitOfWork.commentRepository.create(commentModel)).get('createdAt');
   }
 }
 

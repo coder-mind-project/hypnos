@@ -8,6 +8,7 @@ import { getNumber } from '../serializers/NumberParser';
 import IArticle from '../../02_domain/interfaces/entities/IArticle';
 import FoundArticles from '../../02_domain/valueObjects/FoundArticles';
 import ArticleModel from '../models/ArticleModel';
+import CommentModel from '../models/CommentModel';
 
 class ArticleAction {
   private readonly _app: IExpress;
@@ -64,15 +65,7 @@ class ArticleAction {
 
   getOne = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-      res.json(await this._articleService.getByCustomUri(req.params.customUri));
-    } catch (err) {
-      next(err);
-    }
-  };
-
-  postComment = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    try {
-      res.json(await this._commentService.saveComment(req.body, req.params.customUri));
+      res.json(new ArticleModel(await this._articleService.getByCustomUri(req.params.customUri)));
     } catch (err) {
       next(err);
     }
@@ -80,7 +73,9 @@ class ArticleAction {
 
   getComments = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-      res.json(await this._commentService.getByArticleUri(req.params.customUri));
+      res.json(
+        (await this._commentService.getByArticleUri(req.params.customUri)).map(comment => new CommentModel(comment))
+      );
     } catch (err) {
       next(err);
     }
@@ -88,8 +83,7 @@ class ArticleAction {
 
   saveComment = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-      await this._commentService.saveComment(req.body, req.params.customUri);
-      res.status(201).send();
+      res.status(201).send(await this._commentService.saveComment(req.body, req.params.customUri));
     } catch (err) {
       next(err);
     }
@@ -97,8 +91,7 @@ class ArticleAction {
 
   saveView = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-      await this._articleService.saveView(req.params.customUri, req.body.reader);
-      res.status(201).send();
+      res.json(await this._articleService.saveView(req.params.customUri, req.body.reader));
     } catch (err) {
       next(err);
     }
@@ -106,8 +99,7 @@ class ArticleAction {
 
   saveLike = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-      await this._articleService.saveLike(req.params.customUri, req.body.reader);
-      res.status(201).send();
+      res.json(await this._articleService.saveLike(req.params.customUri, req.body.reader));
     } catch (err) {
       next(err);
     }
