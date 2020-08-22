@@ -16,21 +16,21 @@ class ArticleModel {
   public uri: string;
   public publishedAt: Date | null;
 
-  constructor(article: IArticle | null) {
-    this.title = article?.title || '';
-    this.description = article?.description || '';
-    this.state = article?.state || '';
-    this.logoImg = article?.logoImg || '';
-    this.secondaryImg = article?.secondaryImg || '';
-    this.headerImg = article?.headerImg || '';
-    this.contentType = article?.contentType || '';
-    this.content = article?.content || '';
-    this.relatedVideoType = article?.socialVideoType || '';
-    this.relatedVideo = article?.socialVideo || '';
-    this.relatedRepositoryType = article?.socialRepositoryType || '';
-    this.relatedRepository = article?.socialRepository || '';
-    this.uri = article?.customUri || '';
-    this.publishedAt = article?.publishedAt ?? null;
+  constructor(article: IArticle) {
+    this.title = article.title;
+    this.description = article.description;
+    this.state = article.state;
+    this.logoImg = article.logoImg;
+    this.secondaryImg = article.secondaryImg;
+    this.headerImg = article.headerImg;
+    this.contentType = article.contentType;
+    this.content = article.content;
+    this.relatedVideoType = article.socialVideoType;
+    this.relatedVideo = article.socialVideo;
+    this.relatedRepositoryType = article.socialRepositoryType;
+    this.relatedRepository = article.socialRepository;
+    this.uri = article.customUri;
+    this.publishedAt = article.publishedAt;
   }
 }
 

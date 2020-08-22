@@ -65,7 +65,8 @@ class ArticleAction {
 
   getOne = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-      res.json(new ArticleModel(await this._articleService.getByCustomUri(req.params.customUri)));
+      const article = await this._articleService.getByCustomUri(req.params.customUri);
+      res.json(article ? new ArticleModel(article) : null);
     } catch (err) {
       next(err);
     }
