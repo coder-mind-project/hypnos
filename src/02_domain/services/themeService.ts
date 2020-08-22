@@ -1,8 +1,7 @@
-import { DocumentQuery, Document } from 'mongoose';
-
 import IExpress from '../../03_infra/interfaces/dependencyInjection/IExpress';
 import IThemeService from '../interfaces/services/IThemeService';
 import IUnitOfWork from '../../03_infra/interfaces/IUnitOfWork';
+import ITheme from '../interfaces/entities/ITheme';
 
 class ThemeService implements IThemeService {
   private readonly _unitOfWork: IUnitOfWork;
@@ -11,8 +10,8 @@ class ThemeService implements IThemeService {
     this._unitOfWork = app.get('unitOfWork');
   }
 
-  public get(skip = 0, limit = 5): DocumentQuery<Document[], Document, unknown> {
-    return this._unitOfWork.themeRepository.get(skip, limit, { state: 'active' });
+  public async get(skip = 0, limit = 5): Promise<ITheme[]> {
+    return await this._unitOfWork.themeRepository.getActiveThemes(skip, limit);
   }
 }
 
