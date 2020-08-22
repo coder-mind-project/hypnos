@@ -1,7 +1,7 @@
-import { DocumentQuery, Document } from 'mongoose';
+import ITheme from '../entities/ITheme';
 
 interface IThemeService {
-  get(skip?: number, limit?: number): DocumentQuery<Document[], Document, unknown>;
+  get(skip?: number, limit?: number): Promise<ITheme[]>;
 }
 
 export default IThemeService;

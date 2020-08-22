@@ -1,5 +1,3 @@
-import { DocumentQuery } from 'mongoose';
-
 import BaseRepository from './baseRepository';
 import Article from '../../../02_domain/entities/Article';
 import IArticle from '../../../02_domain/interfaces/entities/IArticle';
@@ -13,11 +11,8 @@ class ArticleRepository extends BaseRepository implements IArticleRepository {
     super(Article);
   }
 
-  public getByCustomUri(
-    customUri: string,
-    stateCriteria: Array<string> = []
-  ): DocumentQuery<IArticle | null, IArticle, unknown> {
-    return Article.findOne({
+  public async getByCustomUri(customUri: string, stateCriteria: Array<string> = []): Promise<IArticle | null> {
+    return await Article.findOne({
       customUri,
       $or: stateCriteria.map((value: string) => Object.assign({}, { state: value }))
     });
@@ -40,7 +35,7 @@ class ArticleRepository extends BaseRepository implements IArticleRepository {
     return new FoundArticles(articles, count);
   }
 
-  public async getRelateds(articleUri: string, limit = 5): Promise<unknown[] | FoundArticles> {
+  public async getRelateds(articleUri: string, limit = 5): Promise<FoundArticles> {
     if (!articleUri) {
       return this.getBoosted(0, limit);
     }
@@ -49,7 +44,7 @@ class ArticleRepository extends BaseRepository implements IArticleRepository {
 
     if (!article) throw new ResourceNotFound('Artigo não encontrado');
 
-    return Article.aggregate([
+    const articles = await Article.aggregate([
       {
         $match: {
           _id: { $ne: article._id },
@@ -71,7 +66,9 @@ class ArticleRepository extends BaseRepository implements IArticleRepository {
       {
         $sort: { publishedAt: -1, boostedAt: -1 }
       }
-    ]);
+    ]).limit(limit);
+
+    return new FoundArticles(articles, articles.length);
   }
 }
 
