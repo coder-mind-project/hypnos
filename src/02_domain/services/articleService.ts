@@ -4,7 +4,6 @@ import IArticleService from '../interfaces/services/IArticleService';
 import IUnitOfWork from '../../03_infra/interfaces/IUnitOfWork';
 
 import FoundArticles from '../valueObjects/FoundArticles';
-import InvalidArgument from '../../01_presentation/exceptions/InvalidArgument';
 import ResourceNotFound from '../../01_presentation/exceptions/ResourceNotFound';
 
 class ArticleService implements IArticleService {
@@ -18,7 +17,7 @@ class ArticleService implements IArticleService {
     return this._unitOfWork.articleRepository.getBoosted(skip, limit);
   }
 
-  public getByCustomUri(customUri: string): Promise<IArticle | null> {
+  public async getOne(customUri: string): Promise<IArticle | null> {
     return this._unitOfWork.articleRepository.getByCustomUri(customUri, ['boosted', 'published']);
   }
 
@@ -30,21 +29,29 @@ class ArticleService implements IArticleService {
     return this._unitOfWork.articleRepository.getArticles(skip, limit);
   }
 
-  private validateReader(reader: string): void {
-    if (!reader) throw new InvalidArgument('É necessário fornecer um leitor válido');
+  private validateReader(reader?: string): string {
+    return reader || this.generateReader();
   }
 
-  private async getArticleByCustomUri(articleUri: string): Promise<IArticle> {
-    const article: IArticle | null = await this.getByCustomUri(articleUri);
-
-    if (!article) throw new ResourceNotFound('Artigo não encontrado');
-    else return article;
+  private generateReader(): string {
+    return String(Date.now() * (1 + Math.random()));
   }
 
-  public async saveView(articleUri: string, readerIdentifier: string): Promise<string> {
-    this.validateReader(readerIdentifier);
+  public async getByCustomUri(articleUri: string, reader?: string): Promise<IArticle> {
+    const article: IArticle | null = await this.getOne(articleUri);
 
-    const article = await this.getArticleByCustomUri(articleUri);
+    if (!article)
+      throw new ResourceNotFound('Artigo não encontrado');
+
+    this.saveView(articleUri, this.validateReader(reader));
+    return article;
+  }
+
+  private async saveView(articleUri: string, readerIdentifier: string): Promise<string> {
+    const article = await this.getOne(articleUri);
+
+    if (!article)
+      throw new ResourceNotFound('Artigo não encontrado');
 
     const view = await this._unitOfWork.viewRepository.getOne({
       articleId: article._id,
@@ -66,13 +73,16 @@ class ArticleService implements IArticleService {
   }
 
   public async saveLike(articleUri: string, readerIdentifier: string): Promise<boolean | string> {
-    this.validateReader(readerIdentifier);
+    const reader = this.validateReader(readerIdentifier);
 
-    const article = await this.getArticleByCustomUri(articleUri);
+    const article = await this.getOne(articleUri);
+
+    if (!article)
+      throw new ResourceNotFound('Artigo não encontrado');
 
     const like = await this._unitOfWork.likeRepository.getOne({
       articleId: article._id,
-      reader: readerIdentifier
+      reader
     });
 
     if (like) {
@@ -81,7 +91,7 @@ class ArticleService implements IArticleService {
     } else {
       const newLike = {
         articleId: article._id,
-        reader: readerIdentifier,
+        reader,
         active: true
       };
 
