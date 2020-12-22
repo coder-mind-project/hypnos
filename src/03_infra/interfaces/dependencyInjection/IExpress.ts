@@ -6,6 +6,7 @@ import ICommentService from '../../../02_domain/interfaces/services/ICommentServ
 import IUnitOfWork from '../IUnitOfWork';
 import ISMTPService from '../services/smtp/IsmtpService';
 import IContactService from '../../../02_domain/interfaces/services/IContactService';
+import ICategoryService from '../../../02_domain/interfaces/services/ICategoryService';
 
 interface IExpress extends Express {
   unitOfWork: IUnitOfWork;
@@ -13,6 +14,7 @@ interface IExpress extends Express {
   themeService: IThemeService;
   commentService: ICommentService;
   contactService: IContactService;
+  categoryService: ICategoryService;
   smtpService: ISMTPService;
 }
 
