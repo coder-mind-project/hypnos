@@ -3,6 +3,8 @@
 
 
 [![Build status](https://dev.azure.com/codermindproject/Coder%20Mind/_apis/build/status/Production/Hypnos-production)](https://dev.azure.com/codermindproject/Coder%20Mind/_build/latest?definitionId=8)
+[![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/coder-mind-project/hypnos.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/coder-mind-project/hypnos/context:javascript)
+[![Total alerts](https://img.shields.io/lgtm/alerts/g/coder-mind-project/hypnos.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/coder-mind-project/hypnos/alerts/)
 [![All Contributors](https://img.shields.io/badge/all_contributors-1-blue.svg?style=flat-square)](#contributors)
 ![Development status](http://img.shields.io/badge/status-under%20development-yellow)
 ![contributions-welcome](https://img.shields.io/badge/contributions-welcome-brightgreen)
@@ -22,11 +24,11 @@ Install dependencies with:
 
 `npm install`
 
-Run the application in development mode with: 
+Build application with:
 
-`npm run start:develop`
+`npm run build`
 
-Run the application in production mode with:
+Run the application with:
 
 `npm start`
 ___

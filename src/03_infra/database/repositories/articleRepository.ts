@@ -12,11 +12,17 @@ class ArticleRepository extends BaseRepository implements IArticleRepository {
   }
 
   public async getByCustomUri(customUri: string, stateCriteria: Array<string> = []): Promise<IArticle | null> {
-    return await Article.findOne({
-      customUri,
-      ...this.articlePipeFilters,
-      $or: stateCriteria.map((value: string) => Object.assign({}, { state: value }))
-    });
+    const articles = await Article.aggregate([
+      {
+        $match: {
+          customUri: customUri,
+          $or: stateCriteria.map((value: string) => Object.assign({}, { state: value }))
+        }
+      },
+      ...this.articlePipeFilters
+    ]).limit(1);
+
+    return articles[0];
   }
 
   public async getArticles(skip = 0, limit = 15): Promise<FoundArticles> {
