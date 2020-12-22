@@ -1,4 +1,5 @@
 import { Document, Types } from 'mongoose';
+import ITheme from './ITheme';
 
 interface ICategory extends Document {
   _id: Types.ObjectId;
@@ -7,6 +8,7 @@ interface ICategory extends Document {
   alias: string;
   description: string;
   state: string;
+  theme: ITheme;
 }
 
 export default ICategory;
