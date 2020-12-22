@@ -40,7 +40,7 @@ class CommentService implements ICommentService {
   }
 
   public async getByArticleUri(uri: string, skip = 0, take = 15): Promise<IComment[]> {
-    const article = await this._articleService.getByCustomUri(uri);
+    const article = await this._articleService.getOne(uri);
     this.validateArticle(article);
 
     return await this._unitOfWork.commentRepository.getByArticle(article!._id, skip, take);
@@ -49,7 +49,7 @@ class CommentService implements ICommentService {
   public async saveComment(commentModel: IComment, customUri: string): Promise<string> {
     this.validate(commentModel);
 
-    const article = await this._articleService.getByCustomUri(customUri);
+    const article = await this._articleService.getOne(customUri);
     this.validateArticle(article);
 
     commentModel.articleId = article!._id;

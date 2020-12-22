@@ -28,7 +28,6 @@ class ArticleAction {
     this._app.route(`${resource}/:customUri/relateds`).get(this.getRelateds);
     this._app.route(`${resource}/:customUri/comments`).get(this.getComments);
     this._app.route(`${resource}/:customUri/comments`).post(this.saveComment);
-    this._app.route(`${resource}/:customUri/views`).post(this.saveView);
     this._app.route(`${resource}/:customUri/likes`).post(this.saveLike);
   }
 
@@ -82,7 +81,8 @@ class ArticleAction {
 
   getOne = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-      const article = await this._articleService.getByCustomUri(req.params.customUri);
+      const { params, query } = req;
+      const article = await this._articleService.getByCustomUri(params?.customUri, query?.reader?.toString());
       res.json(article ? new ArticleModel(article) : null);
     } catch (err) {
       next(err);
@@ -102,14 +102,6 @@ class ArticleAction {
   saveComment = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       res.status(201).send(await this._commentService.saveComment(req.body, req.params.customUri));
-    } catch (err) {
-      next(err);
-    }
-  };
-
-  saveView = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    try {
-      res.json(await this._articleService.saveView(req.params.customUri, req.body.reader));
     } catch (err) {
       next(err);
     }
