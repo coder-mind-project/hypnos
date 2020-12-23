@@ -24,7 +24,7 @@ class BaseRepository {
   }
 
   async count(query: MongooseFilterQuery<unknown>): Promise<number> {
-    return await this._model.estimatedDocumentCount(query);
+    return await this._model.countDocuments(query);
   }
 }
 
