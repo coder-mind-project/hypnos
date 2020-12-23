@@ -18,6 +18,7 @@ class ArticleModel {
   public relatedRepository: string;
   public uri: string;
   public publishedAt: Date | null;
+  public boostedAt: Date | null;
   public theme: ThemeModel;
   public category: CategoryModel;
 
@@ -36,6 +37,7 @@ class ArticleModel {
     this.relatedRepository = article?.socialRepository;
     this.uri = article?.customUri;
     this.publishedAt = article?.publishedAt;
+    this.boostedAt = article?.boostedAt;
     this.theme = new ThemeModel(article?.theme);
     this.category = new CategoryModel(article?.category);
   }
