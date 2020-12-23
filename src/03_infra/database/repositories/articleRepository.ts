@@ -32,7 +32,10 @@ class ArticleRepository extends BaseRepository implements IArticleRepository {
       {
         $match: { $or: [{ state: 'published' }, { state: 'boosted' }] }
       },
-      ...this.articlePipeFilters
+      ...this.articlePipeFilters,
+      {
+        $sort: { state: 1, boostedAt: -1, publishedAt: -1 }
+      }
     ])
       .skip(skip)
       .limit(limit);
