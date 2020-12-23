@@ -82,9 +82,6 @@ class ArticleRepository extends BaseRepository implements IArticleRepository {
             }
           ]
         }
-      },
-      {
-        $sort: { publishedAt: -1, boostedAt: -1 }
       }
     ]).limit(limit);
 
@@ -157,9 +154,6 @@ class ArticleRepository extends BaseRepository implements IArticleRepository {
         'author.lastEmailTokenSendAt': 0,
         'author.token': 0
       }
-    },
-    {
-      $sort: { publishAt: -1 }
     }
   ];
 }
