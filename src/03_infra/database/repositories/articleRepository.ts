@@ -25,12 +25,34 @@ class ArticleRepository extends BaseRepository implements IArticleRepository {
     return articles[0];
   }
 
-  public async getArticles(skip = 0, limit = 15): Promise<FoundArticles> {
-    const count = await this.count({ $or: [{ state: 'published' }, { state: 'boosted' }] });
+  public async getArticles(term?: string, skip = 0, limit = 15): Promise<FoundArticles> {
+    const count = await this.count({
+      $and: [
+        {
+          $or: [{ state: 'published' }, { state: 'boosted' }]
+        }
+      ],
+      $or: [
+        { title: { $regex: `${term ?? ''}`, $options: 'i' } },
+        { description: { $regex: `${term ?? ''}`, $options: 'i' } },
+        { content: { $regex: `${term ?? ''}`, $options: 'i' } }
+      ]
+    });
 
     const articles = await Article.aggregate([
       {
-        $match: { $or: [{ state: 'published' }, { state: 'boosted' }] }
+        $match: {
+          $and: [
+            {
+              $or: [{ state: 'published' }, { state: 'boosted' }]
+            }
+          ],
+          $or: [
+            { title: { $regex: `${term ?? ''}`, $options: 'i' } },
+            { description: { $regex: `${term ?? ''}`, $options: 'i' } },
+            { content: { $regex: `${term ?? ''}`, $options: 'i' } }
+          ]
+        }
       },
       ...this.articlePipeFilters,
       {

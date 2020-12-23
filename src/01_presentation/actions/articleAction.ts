@@ -34,9 +34,12 @@ class ArticleAction {
 
   get = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
+      const { skip, limit, query } = req?.query;
+
       const articlesFound: FoundArticles = await this._articleService.get(
-        getNumber(req.query.skip),
-        getNumber(req.query.limit)
+        getNumber(skip),
+        getNumber(limit),
+        query?.toString()
       );
 
       res.json({

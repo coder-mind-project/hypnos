@@ -29,8 +29,8 @@ class ArticleService implements IArticleService {
     return this._unitOfWork.articleRepository.getRelateds(articleUri, limit);
   }
 
-  public get(skip: number | undefined, limit?: number | undefined): Promise<FoundArticles> {
-    return this._unitOfWork.articleRepository.getArticles(skip, limit);
+  public get(skip: number | undefined, limit?: number | undefined, term?: string): Promise<FoundArticles> {
+    return this._unitOfWork.articleRepository.getArticles(term, skip, limit);
   }
 
   private validateReader(reader?: string): string {

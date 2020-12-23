@@ -8,7 +8,7 @@ interface IArticleService {
   getOne(customUri: string): Promise<IArticle | null>;
   getRelateds(articleUri: string, limit?: number): Promise<FoundArticles>;
   saveLike(articleId: string, readerName: string): Promise<boolean | string>;
-  get(skip: number | undefined, limit?: number | undefined): Promise<FoundArticles>;
+  get(skip: number | undefined, limit?: number | undefined, term?: string): Promise<FoundArticles>;
 }
 
 export default IArticleService;

@@ -7,7 +7,7 @@ interface IArticleRepository {
   getBoosted(skip?: number, limit?: number): Promise<FoundArticles>;
   getPublished(skip?: number, limit?: number): Promise<FoundArticles>;
   getRelateds(articleUri: string, limit?: number): Promise<FoundArticles>;
-  getArticles(skip?: number, limit?: number): Promise<FoundArticles>;
+  getArticles(term?: string, skip?: number, limit?: number): Promise<FoundArticles>;
 }
 
 export default IArticleRepository;
