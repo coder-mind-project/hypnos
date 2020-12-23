@@ -50,7 +50,24 @@ class ArticleRepository extends BaseRepository implements IArticleRepository {
       {
         $match: { state: 'boosted' }
       },
-      ...this.articlePipeFilters
+      ...this.articlePipeFilters,
+      { $sort: { boostedAt: -1 } }
+    ])
+      .skip(skip)
+      .limit(limit);
+
+    return new FoundArticles(articles, count);
+  }
+
+  public async getPublished(skip = 0, limit = 5): Promise<FoundArticles> {
+    const count = await this.count({ state: 'published' });
+
+    const articles = await Article.aggregate([
+      {
+        $match: { state: 'published' }
+      },
+      ...this.articlePipeFilters,
+      { $sort: { publishedAt: -1 } }
     ])
       .skip(skip)
       .limit(limit);

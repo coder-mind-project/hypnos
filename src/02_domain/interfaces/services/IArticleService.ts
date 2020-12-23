@@ -2,6 +2,7 @@ import IArticle from '../entities/IArticle';
 import FoundArticles from '../../valueObjects/FoundArticles';
 
 interface IArticleService {
+  getPublishedArticles(skip?: number, limit?: number): Promise<FoundArticles>;
   getBoostedArticles(skip?: number, limit?: number): Promise<FoundArticles>;
   getByCustomUri(customUri: string, reader?: string): Promise<IArticle | null>;
   getOne(customUri: string): Promise<IArticle | null>;
