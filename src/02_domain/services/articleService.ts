@@ -13,6 +13,10 @@ class ArticleService implements IArticleService {
     this._unitOfWork = app.get('unitOfWork');
   }
 
+  public getPublishedArticles(skip: number | undefined, limit: number | undefined): Promise<FoundArticles> {
+    return this._unitOfWork.articleRepository.getPublished(skip, limit);
+  }
+
   public getBoostedArticles(skip: number | undefined, limit: number | undefined): Promise<FoundArticles> {
     return this._unitOfWork.articleRepository.getBoosted(skip, limit);
   }
@@ -25,8 +29,8 @@ class ArticleService implements IArticleService {
     return this._unitOfWork.articleRepository.getRelateds(articleUri, limit);
   }
 
-  public get(skip: number | undefined, limit?: number | undefined): Promise<FoundArticles> {
-    return this._unitOfWork.articleRepository.getArticles(skip, limit);
+  public get(skip: number | undefined, limit?: number | undefined, term?: string): Promise<FoundArticles> {
+    return this._unitOfWork.articleRepository.getArticles(term, skip, limit);
   }
 
   private validateReader(reader?: string): string {
@@ -40,8 +44,7 @@ class ArticleService implements IArticleService {
   public async getByCustomUri(articleUri: string, reader?: string): Promise<IArticle> {
     const article: IArticle | null = await this.getOne(articleUri);
 
-    if (!article)
-      throw new ResourceNotFound('Artigo não encontrado');
+    if (!article) throw new ResourceNotFound('Artigo não encontrado');
 
     this.saveView(articleUri, this.validateReader(reader));
     return article;
@@ -50,8 +53,7 @@ class ArticleService implements IArticleService {
   private async saveView(articleUri: string, readerIdentifier: string): Promise<string> {
     const article = await this.getOne(articleUri);
 
-    if (!article)
-      throw new ResourceNotFound('Artigo não encontrado');
+    if (!article) throw new ResourceNotFound('Artigo não encontrado');
 
     const view = await this._unitOfWork.viewRepository.getOne({
       articleId: article._id,
@@ -77,8 +79,7 @@ class ArticleService implements IArticleService {
 
     const article = await this.getOne(articleUri);
 
-    if (!article)
-      throw new ResourceNotFound('Artigo não encontrado');
+    if (!article) throw new ResourceNotFound('Artigo não encontrado');
 
     const like = await this._unitOfWork.likeRepository.getOne({
       articleId: article._id,

@@ -25,14 +25,39 @@ class ArticleRepository extends BaseRepository implements IArticleRepository {
     return articles[0];
   }
 
-  public async getArticles(skip = 0, limit = 15): Promise<FoundArticles> {
-    const count = await this.count({ state: 'published' });
+  public async getArticles(term?: string, skip = 0, limit = 15): Promise<FoundArticles> {
+    const count = await this.count({
+      $and: [
+        {
+          $or: [{ state: 'published' }, { state: 'boosted' }]
+        }
+      ],
+      $or: [
+        { title: { $regex: `${term ?? ''}`, $options: 'i' } },
+        { description: { $regex: `${term ?? ''}`, $options: 'i' } },
+        { content: { $regex: `${term ?? ''}`, $options: 'i' } }
+      ]
+    });
 
     const articles = await Article.aggregate([
       {
-        $match: { state: 'published' }
+        $match: {
+          $and: [
+            {
+              $or: [{ state: 'published' }, { state: 'boosted' }]
+            }
+          ],
+          $or: [
+            { title: { $regex: `${term ?? ''}`, $options: 'i' } },
+            { description: { $regex: `${term ?? ''}`, $options: 'i' } },
+            { content: { $regex: `${term ?? ''}`, $options: 'i' } }
+          ]
+        }
       },
-      ...this.articlePipeFilters
+      ...this.articlePipeFilters,
+      {
+        $sort: { state: 1, boostedAt: -1, publishedAt: -1 }
+      }
     ])
       .skip(skip)
       .limit(limit);
@@ -47,7 +72,24 @@ class ArticleRepository extends BaseRepository implements IArticleRepository {
       {
         $match: { state: 'boosted' }
       },
-      ...this.articlePipeFilters
+      ...this.articlePipeFilters,
+      { $sort: { boostedAt: -1 } }
+    ])
+      .skip(skip)
+      .limit(limit);
+
+    return new FoundArticles(articles, count);
+  }
+
+  public async getPublished(skip = 0, limit = 5): Promise<FoundArticles> {
+    const count = await this.count({ state: 'published' });
+
+    const articles = await Article.aggregate([
+      {
+        $match: { state: 'published' }
+      },
+      ...this.articlePipeFilters,
+      { $sort: { publishedAt: -1 } }
     ])
       .skip(skip)
       .limit(limit);
@@ -82,9 +124,6 @@ class ArticleRepository extends BaseRepository implements IArticleRepository {
             }
           ]
         }
-      },
-      {
-        $sort: { publishedAt: -1, boostedAt: -1 }
       }
     ]).limit(limit);
 
@@ -157,9 +196,6 @@ class ArticleRepository extends BaseRepository implements IArticleRepository {
         'author.lastEmailTokenSendAt': 0,
         'author.token': 0
       }
-    },
-    {
-      $sort: { publishAt: -1 }
     }
   ];
 }
