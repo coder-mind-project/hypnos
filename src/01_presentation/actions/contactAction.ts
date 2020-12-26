@@ -16,8 +16,9 @@ class ContactAction {
   }
 
   sendMessage = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    const { email, message } = req.body;
     try {
-      await this._contactService.sendMessage(req.body.email, req.body.message);
+      await this._contactService.sendMessage(email, message);
       res.status(204).send();
     } catch (err) {
       next(err);

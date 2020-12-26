@@ -30,8 +30,19 @@ class ContactService implements IContactService {
       String(smtp.receiver),
       `Contato pelo blog codermind.com.br <${readerEmail}>`,
       message,
-      message
+      this.formatToSendMessageInHTMLFormat(message)
     );
+  }
+
+  private formatToSendMessageInHTMLFormat(term: string): string {
+    let _term = term;
+    _term = this.formatBreakline(_term);
+
+    return _term;
+  }
+
+  private formatBreakline(term: string): string {
+    return term.replaceAll('\n', '<br/>');
   }
 }
 
