@@ -6,14 +6,14 @@ class CategoryModel {
   public description: string;
   public alias: string;
   public longDescription: string;
-  public theme: ThemeModel;
+  public theme: ThemeModel | undefined;
 
   constructor(category: ICategory) {
     this.id = category?.id;
     this.description = category?.name;
     this.alias = category?.alias;
     this.longDescription = category?.description;
-    this.theme = new ThemeModel(category?.theme);
+    this.theme = category?.theme ? new ThemeModel(category?.theme) : undefined;
   }
 }
 
