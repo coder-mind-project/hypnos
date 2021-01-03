@@ -2,6 +2,7 @@ import CategoryModel from './CategoryModel';
 import ThemeModel from './ThemeModel';
 
 import IArticle from '../../02_domain/interfaces/entities/IArticle';
+import AuthorModel from './AuthorModel';
 
 class ArticleModel {
   public title: string;
@@ -21,6 +22,7 @@ class ArticleModel {
   public boostedAt: Date | null;
   public theme: ThemeModel;
   public category: CategoryModel;
+  public author: AuthorModel;
 
   constructor(article: IArticle) {
     this.title = article?.title;
@@ -40,6 +42,7 @@ class ArticleModel {
     this.boostedAt = article?.boostedAt;
     this.theme = new ThemeModel(article?.theme);
     this.category = new CategoryModel(article?.category);
+    this.author = new AuthorModel(article?.author);
   }
 }
 
