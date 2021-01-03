@@ -1,6 +1,7 @@
 import { Document, Types } from 'mongoose';
 import ICategory from './ICategory';
 import ITheme from './ITheme';
+import IUser from './IUser';
 
 interface IArticle extends Document {
   _id: Types.ObjectId;
@@ -28,6 +29,7 @@ interface IArticle extends Document {
   updatedAt: Date;
   theme: ITheme;
   category: ICategory;
+  author: IUser;
 }
 
 export default IArticle;
