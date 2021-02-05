@@ -1,3 +1,5 @@
+> This project is no longer maintained and will no longer be updated.
+
 # Hypnos
 #### RestFul API for provide articles, authors and more! 
 
